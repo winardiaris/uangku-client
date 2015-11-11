@@ -6,6 +6,7 @@
 package org.winardiaris.uangku;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -16,6 +17,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
+import java.net.URLEncoder;
 
 /**
  *
@@ -28,6 +30,25 @@ public class FormData extends javax.swing.JFrame {
      */
     public FormData() {
         initComponents();
+    }
+    public void setTableData(){
+        Tbldata.getColumn("No").setWidth(1); //no
+        Tbldata.getColumnModel().getColumn(1).setPreferredWidth(12); //tanggal
+           
+        Tbldata.getColumnModel().getColumn(3).setPreferredWidth(9); //debet
+        Tbldata.getColumnModel().getColumn(4).setPreferredWidth(9); //kredit
+        Tbldata.getColumnModel().getColumn(5).setPreferredWidth(3); //debet
+    }
+    public void FTambahBersih(){
+        Tvalue.setText("");
+        Tdesc.setText("");
+        Ttoken.setText("");
+                
+        Ttype.enable(true);
+        Tdate.setEnabled(true);
+        Tvalue.setEnabled(true);
+        Tdesc.setEnabled(true);
+        Ttoken.setEnabled(true);
     }
     
     /**
@@ -55,17 +76,25 @@ public class FormData extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tdesc = new javax.swing.JTextArea();
         Tdate = new org.jdesktop.swingx.JXDatePicker();
-        Bsave = new javax.swing.JButton();
         Ljumlah = new javax.swing.JLabel();
         Tvalue = new javax.swing.JTextField();
+        Bsave = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         Brefresh = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tbldata = new javax.swing.JTable();
+        Tdatefrom = new org.jdesktop.swingx.JXDatePicker();
+        Tdateto = new org.jdesktop.swingx.JXDatePicker();
+        Bfind = new javax.swing.JButton();
+        Tsearch = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         Buserpreference = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -112,6 +141,10 @@ public class FormData extends javax.swing.JFrame {
         Tdesc.setRows(5);
         jScrollPane1.setViewportView(Tdesc);
 
+        Ljumlah.setText("Jumlah");
+
+        Tvalue.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+
         Bsave.setText("Simpan");
         Bsave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -119,67 +152,55 @@ public class FormData extends javax.swing.JFrame {
             }
         });
 
-        Ljumlah.setText("Jumlah");
-
-        Tvalue.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(14, Short.MAX_VALUE)
-                        .addComponent(Ttype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(63, 63, 63))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(Tdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(386, 386, 386))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel4)
-                                .addComponent(Ttoken, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(182, 182, 182))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Tvalue)
+                    .addComponent(Ttoken)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(Bsave))
+                    .addComponent(jLabel2)
                     .addComponent(Ljumlah)
-                    .addComponent(Tvalue, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(Ttype, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(64, 64, 64)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(Tdate, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Ttype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Tdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(Tdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Ttype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
                 .addComponent(Ljumlah)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Tvalue, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Ttoken, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(Bsave)
                 .addContainerGap())
@@ -191,6 +212,11 @@ public class FormData extends javax.swing.JFrame {
         Brefresh.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BrefreshMouseClicked(evt);
+            }
+        });
+        Brefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BrefreshActionPerformed(evt);
             }
         });
 
@@ -218,6 +244,19 @@ public class FormData extends javax.swing.JFrame {
         jScrollPane2.setViewportView(Tbldata);
         Tbldata.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
+        Bfind.setText("Cari");
+        Bfind.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BfindMouseClicked(evt);
+            }
+        });
+
+        jLabel5.setText("Dari");
+
+        jLabel6.setText("Sampai");
+
+        jLabel7.setText("Cari");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -228,15 +267,42 @@ public class FormData extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(Brefresh))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Tdatefrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Tdateto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(Tsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Bfind))
+                            .addComponent(jLabel7))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Tdatefrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Tdateto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Bfind)
+                    .addComponent(Tsearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(Brefresh)
                 .addContainerGap())
         );
@@ -250,33 +316,53 @@ public class FormData extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel8.setText("Uangku");
+
+        jLabel9.setText("Pencatatan Keuangan Pribadimu");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1)
-                    .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Luid)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Lusername)
-                        .addGap(18, 18, 18)
-                        .addComponent(Lrealname)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Buserpreference)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Bsignout)))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTabbedPane1)
+                            .addComponent(jSeparator1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Luid)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Lusername)
+                                .addGap(18, 18, 18)
+                                .addComponent(Lrealname)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Buserpreference)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Bsignout))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(270, 270, 270)
+                                .addComponent(jLabel9))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(326, 326, 326)
+                                .addComponent(jLabel8)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGap(6, 6, 6)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -296,10 +382,10 @@ public class FormData extends javax.swing.JFrame {
             getDataURL dataurl = new getDataURL();
             
             String user = this.getTitle();
-            String url = "http://localhost/uangku/?op=get&from_data=username&value_data="+user+"&select_field=uid&from_table=user";
+            String url = "http://arwin.my.id/uangku/?op=get&from_data=username&value_data="+user+"&select_field=uid&from_table=user";
             String data = dataurl.getData(url);
             
-            String url2 = "http://localhost/uangku/?op=get&from_data=username&value_data="+user+"&select_field=realname&from_table=user";
+            String url2 = "http://arwin.my.id/uangku/?op=get&from_data=username&value_data="+user+"&select_field=realname&from_table=user";
             String realname = dataurl.getData(url2);
             
             
@@ -312,8 +398,13 @@ public class FormData extends javax.swing.JFrame {
             Luid.setText(data);
             Lusername.setText(user);
             Lrealname.setText(realname);
+          
+            setTableData();
             
-            this.setTitle("Uangku - "+realname);
+            
+            
+            
+            //this.setTitle("Uangku - "+realname);
         } catch (IOException ex) {
             Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -326,7 +417,7 @@ public class FormData extends javax.swing.JFrame {
             
              
             String UID = Luid.getText();
-            String url = "http://localhost/uangku/?op=viewdata&uid="+UID;
+            String url = "http://arwin.my.id/uangku/?op=viewdata&uid="+UID;
             
         
         try {
@@ -361,9 +452,6 @@ public class FormData extends javax.swing.JFrame {
                         Object[] row = { i+1 ,dates ,desc ,"-" ,value ,did };
                         model.addRow(row);
                     }
-                    
-                    
-                    
                     System.out.println("did:"+did); 
                     System.out.println("uid:"+uid); 
                     System.out.println("date:"+dates); 
@@ -376,20 +464,15 @@ public class FormData extends javax.swing.JFrame {
                     System.out.println("u_at:"+u_at);
                     System.out.println("----------------------------");
                 }
-                String saldo = "http://localhost/uangku/?op=saldodata&uid=13";
+                String saldo = "http://arwin.my.id/uangku/?op=saldodata&uid="+UID;
                 String datasaldo = dataurl.getData(saldo);
-                Object[] row1 = { "-" ,"-" ,"-" ,"-" ,"-" ,"-" };
+                Object[] row1 = { "" ,"" ,"" ,"" ,"" ,"" };
                 Object[] row = { "" ,"" ,"Saldo" ,"" ,datasaldo ,"" };
                 model.addRow(row1);
                 model.addRow(row);
-            
-            
-            
-            Ttype.enable(true);
-            Tdate.setEnabled(true);
-            Tvalue.setEnabled(true);
-            Tdesc.setEnabled(true);
-            Ttoken.setEnabled(true);
+                
+            FTambahBersih();
+            setTableData();
         } catch (IOException ex) {
             Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -416,8 +499,7 @@ public class FormData extends javax.swing.JFrame {
     }//GEN-LAST:event_TtokenActionPerformed
 
     private void BsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BsaveMouseClicked
-        SimpleDateFormat formatter;
-        formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = Tdate.getDate();
         
         String UID = Luid.getText();
@@ -425,8 +507,20 @@ public class FormData extends javax.swing.JFrame {
         String converted_type;
         String converted_date = formatter.format(date);
         String token = Ttoken.getText();
+        String tokens = null;
+        try {
+            tokens = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String value = Tvalue.getText();
         String desc =  Tdesc.getText();
+        String descs = null;
+        try {
+            descs = URLEncoder.encode(desc, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         if("Debet".equals(type)){
             converted_type = "in";
@@ -441,28 +535,39 @@ public class FormData extends javax.swing.JFrame {
         System.out.println("token : "+token);
         System.out.println("desc : "+desc);
         
-        String url = "http://localhost/uangku/?op=newdata&uid="+UID+"&date="+converted_date+"&token="+token+"&type="+converted_type+"&value="+value+"&desc="+desc;
-        String url_encoded = URLEncoder(url,"UTF-8");
+        String url = "http://arwin.my.id/uangku/?op=newdata&uid="+UID+"&date="+converted_date+"&token="+tokens+"&type="+converted_type+"&value="+value+"&desc="+descs;
+        System.out.println(url);
+
+            getDataURL dataurl = new getDataURL();
+            String data;
         
-        System.out.println(url_encoded);
-        getDataURL dataurl = new getDataURL();
-        String data;
         try {
-            data = dataurl.getData(url_encoded);
+            data = dataurl.getData(url);
             System.out.println(data);
+            
+            if("1".equals(data)){
+                JOptionPane.showMessageDialog(this,"Data berhasi disimpan","Informasi",JOptionPane.INFORMATION_MESSAGE);
+                
+                FTambahBersih();
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"Nama Pengguna / Kata Sandi Salah","Informasi",JOptionPane.ERROR_MESSAGE);
+                Tdate.setFocusable(true);
+            }
         } catch (IOException ex) {
             Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
         }
+            
         
         
     }//GEN-LAST:event_BsaveMouseClicked
 
     private void BuserpreferenceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuserpreferenceMouseClicked
-       this.dispose();
        FormUserPreference fpref = new FormUserPreference();
        fpref.setTitle(this.Luid.getText());
        fpref.setLocationRelativeTo(null);
        fpref.setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_BuserpreferenceMouseClicked
 
     private void TbldataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbldataMouseClicked
@@ -470,6 +575,92 @@ public class FormData extends javax.swing.JFrame {
        String did_from_click = (Tbldata.getModel().getValueAt(row,5).toString());
        System.out.println(did_from_click);
     }//GEN-LAST:event_TbldataMouseClicked
+
+    private void BrefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrefreshActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BrefreshActionPerformed
+
+    private void BfindMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BfindMouseClicked
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        getDataURL dataurl = new getDataURL();
+        JSONParser parser = new JSONParser();
+        DefaultTableModel model = (DefaultTableModel) Tbldata.getModel(); 
+        
+        Date datefrom = Tdatefrom.getDate();
+        Date dateto = Tdateto.getDate();
+        
+        String cdatefrom = formatter.format(datefrom);
+        String cdateto = formatter.format(dateto);
+        
+        String search = Tsearch.getText();
+        String UID = Luid.getText();
+        String url = "http://arwin.my.id/uangku/?op=viewdata&uid="+UID+"&from="+cdatefrom+"&to="+cdateto+"&search="+search;
+        
+        System.out.println(url);
+        
+        try {
+            model.setRowCount(0);
+            String datajson = dataurl.getData(url);
+            
+            Object obj=JSONValue.parse(datajson);
+            JSONArray array=(JSONArray)obj;
+            
+             int banyak = array.size();
+             System.out.println(banyak); 
+                for(int i=0;i<banyak;i++){
+                    JSONObject data=(JSONObject)array.get(i);
+                    Object did = data.get("did"); 
+                    Object uid = data.get("uid"); 
+                    Object dates = data.get("date"); 
+                    Object token = data.get("token"); 
+                    Object type = data.get("type"); 
+                    Object value = data.get("value"); 
+                    Object desc = data.get("desc"); 
+                    Object status = data.get("status"); 
+                    Object c_at = data.get("c_at"); 
+                    Object u_at = data.get("u_at");
+                    
+                    if("in".equals(type.toString())){
+                        Object[] row = { i+1 ,dates ,desc ,value ,"-" ,did };
+                        model.addRow(row);
+                    }
+                    else{
+                        Object[] row = { i+1 ,dates ,desc ,"-" ,value ,did };
+                        model.addRow(row);
+                    }
+                    System.out.println("did:"+did); 
+                    System.out.println("uid:"+uid); 
+                    System.out.println("date:"+dates); 
+                    System.out.println("token:"+token); 
+                    System.out.println("type:"+type); 
+                    System.out.println("value:"+value); 
+                    System.out.println("desc:"+desc); 
+                    System.out.println("status:"+status); 
+                    System.out.println("c_at:"+c_at); 
+                    System.out.println("u_at:"+u_at);
+                    System.out.println("----------------------------");
+                }
+                String saldo = "http://arwin.my.id/uangku/?op=saldodata&uid="+UID+"&from="+cdatefrom+"&to="+cdateto+"&search="+search;
+                String datasaldo = dataurl.getData(saldo);
+                Object[] row1 = { "" ,"" ,"" ,"" ,"" ,"" };
+                Object[] row = { "" ,"" ,"Saldo" ,"" ,datasaldo ,"" };
+                model.addRow(row1);
+                model.addRow(row);
+            
+            
+            
+            Ttype.enable(true);
+            Tdate.setEnabled(true);
+            Tvalue.setEnabled(true);
+            Tdesc.setEnabled(true);
+            Ttoken.setEnabled(true);
+            
+            setTableData();
+        } catch (IOException ex) {
+            Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_BfindMouseClicked
     
     /**
      * @param args the command line arguments
@@ -508,6 +699,7 @@ public class FormData extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Bfind;
     private javax.swing.JButton Brefresh;
     private javax.swing.JButton Bsave;
     private javax.swing.JButton Bsignout;
@@ -518,7 +710,10 @@ public class FormData extends javax.swing.JFrame {
     private javax.swing.JLabel Lusername;
     private javax.swing.JTable Tbldata;
     private org.jdesktop.swingx.JXDatePicker Tdate;
+    private org.jdesktop.swingx.JXDatePicker Tdatefrom;
+    private org.jdesktop.swingx.JXDatePicker Tdateto;
     private javax.swing.JTextArea Tdesc;
+    private javax.swing.JTextField Tsearch;
     private javax.swing.JTextField Ttoken;
     private javax.swing.JComboBox Ttype;
     private javax.swing.JTextField Tvalue;
@@ -526,6 +721,11 @@ public class FormData extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -534,7 +734,5 @@ public class FormData extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 
-    private String URLEncoder(String url, String utF8) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 }

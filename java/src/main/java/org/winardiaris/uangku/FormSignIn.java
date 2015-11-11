@@ -36,6 +36,11 @@ public class FormSignIn extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Masuk - uangku");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         Lusername.setText("Nama Pengguna");
 
@@ -126,7 +131,7 @@ public class FormSignIn extends javax.swing.JFrame {
        String password_text = Tpassword.getText();
         String pass;
         pass = DigestUtils.md5Hex(password_text);
-       String url = "http://localhost/uangku/?op=login&username="+user+"&password="+pass;
+       String url = "http://arwin.my.id/uangku/?op=login&username="+user+"&password="+pass;
         
        getDataURL dataurl = new getDataURL();
         try {
@@ -162,6 +167,11 @@ public class FormSignIn extends javax.swing.JFrame {
     private void BnewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BnewActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BnewActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+      this.setLocationRelativeTo(null);
+      
+    }//GEN-LAST:event_formWindowActivated
         
     /**
      * @param args the command line arguments
