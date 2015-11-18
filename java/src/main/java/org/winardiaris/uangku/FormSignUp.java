@@ -133,7 +133,7 @@ public class FormSignUp extends javax.swing.JFrame {
         String password_text = Tpassword.getText();
         String password;
         password = DigestUtils.md5Hex(password_text);
-        String url = "http://arwin.my.id/uangku/?op=newuser&username="+username+"&password="+password+"&realname="+realname;
+        String url = "http://localhost/uangku/?op=newuser&username="+username+"&password="+password+"&realname="+realname;
         
         getDataURL dataurl = new getDataURL();
         try {

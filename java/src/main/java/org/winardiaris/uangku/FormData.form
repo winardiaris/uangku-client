@@ -53,7 +53,7 @@
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="326" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="329" max="-2" attributes="0"/>
                               <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -288,11 +288,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="Brefresh" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jScrollPane2" alignment="0" pref="737" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" alignment="0" pref="827" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="Tdatefrom" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -305,14 +301,24 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
                                       <Component id="Tsearch" min="-2" pref="187" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="Bfind" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="Brefresh" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                               </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="Bedit" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="Bdelete" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -334,11 +340,15 @@
                           <Component id="Tdateto" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="Bfind" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="Tsearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Brefresh" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" pref="276" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="Brefresh" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="Bdelete" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Bedit" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -364,8 +374,9 @@
                 <Component class="javax.swing.JTable" name="Tbldata">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="6" rowCount="1">
+                      <Table columnCount="7" rowCount="1">
                         <Column editable="false" title="No" type="java.lang.Object"/>
+                        <Column editable="true" title="No. Bukti" type="java.lang.Object"/>
                         <Column editable="false" title="Tanggal" type="java.lang.Object"/>
                         <Column editable="false" title="Keterangan" type="java.lang.Object"/>
                         <Column editable="false" title="Debet" type="java.lang.Object"/>
@@ -375,6 +386,11 @@
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="2">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -445,6 +461,19 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cari"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="Bdelete">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Hapus"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="Bedit">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Perbaharui"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BeditMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

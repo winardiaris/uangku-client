@@ -51,6 +51,9 @@ public class FormSignIn extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BloginMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                BloginMouseEntered(evt);
+            }
         });
 
         Bnew.setText("Daftar");
@@ -131,7 +134,7 @@ public class FormSignIn extends javax.swing.JFrame {
        String password_text = Tpassword.getText();
         String pass;
         pass = DigestUtils.md5Hex(password_text);
-       String url = "http://arwin.my.id/uangku/?op=login&username="+user+"&password="+pass;
+       String url = "http://localhost/uangku/?op=login&username="+user+"&password="+pass;
         
        getDataURL dataurl = new getDataURL();
         try {
@@ -172,6 +175,10 @@ public class FormSignIn extends javax.swing.JFrame {
       this.setLocationRelativeTo(null);
       
     }//GEN-LAST:event_formWindowActivated
+
+    private void BloginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BloginMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BloginMouseEntered
         
     /**
      * @param args the command line arguments

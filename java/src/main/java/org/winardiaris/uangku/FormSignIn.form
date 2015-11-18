@@ -116,6 +116,7 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BloginMouseClicked"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BloginMouseEntered"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="Tusername">

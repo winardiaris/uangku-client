@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template file, choose Tools + Templates
  * and open the template in the editor.
  */
 package org.winardiaris.uangku;
@@ -33,11 +33,11 @@ public class FormData extends javax.swing.JFrame {
     }
     public void setTableData(){
         Tbldata.getColumn("No").setWidth(1); //no
-        Tbldata.getColumnModel().getColumn(1).setPreferredWidth(12); //tanggal
-           
-        Tbldata.getColumnModel().getColumn(3).setPreferredWidth(9); //debet
-        Tbldata.getColumnModel().getColumn(4).setPreferredWidth(9); //kredit
-        Tbldata.getColumnModel().getColumn(5).setPreferredWidth(3); //debet
+//        Tbldata.getColumnModel().getColumn(1).setPreferredWidth(12); //tanggal
+//           
+//        Tbldata.getColumnModel().getColumn(3).setPreferredWidth(9); //debet
+//        Tbldata.getColumnModel().getColumn(4).setPreferredWidth(9); //kredit
+//        Tbldata.getColumnModel().getColumn(5).setPreferredWidth(3); //debet
     }
     public void FTambahBersih(){
         Tvalue.setText("");
@@ -90,6 +90,8 @@ public class FormData extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        Bdelete = new javax.swing.JButton();
+        Bedit = new javax.swing.JButton();
         Buserpreference = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -222,14 +224,14 @@ public class FormData extends javax.swing.JFrame {
 
         Tbldata.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "No", "Tanggal", "Keterangan", "Debet", "Kredit", "did"
+                "No", "No. Bukti", "Tanggal", "Keterangan", "Debet", "Kredit", "did"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, true, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -257,6 +259,15 @@ public class FormData extends javax.swing.JFrame {
 
         jLabel7.setText("Cari");
 
+        Bdelete.setText("Hapus");
+
+        Bedit.setText("Perbaharui");
+        Bedit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BeditMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -264,10 +275,7 @@ public class FormData extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(Brefresh))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Tdatefrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -279,11 +287,19 @@ public class FormData extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(Tsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(Bfind))
-                            .addComponent(jLabel7))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(Bfind)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Brefresh))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(Bedit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Bdelete)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -299,11 +315,14 @@ public class FormData extends javax.swing.JFrame {
                     .addComponent(Tdatefrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Tdateto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Bfind)
-                    .addComponent(Tsearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Tsearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Brefresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(Brefresh)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Bdelete)
+                    .addComponent(Bedit))
                 .addContainerGap())
         );
 
@@ -348,7 +367,7 @@ public class FormData extends javax.swing.JFrame {
                                 .addGap(270, 270, 270)
                                 .addComponent(jLabel9))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(326, 326, 326)
+                                .addGap(329, 329, 329)
                                 .addComponent(jLabel8)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -382,10 +401,10 @@ public class FormData extends javax.swing.JFrame {
             getDataURL dataurl = new getDataURL();
             
             String user = this.getTitle();
-            String url = "http://arwin.my.id/uangku/?op=get&from_data=username&value_data="+user+"&select_field=uid&from_table=user";
+            String url = "http://localhost/uangku/?op=get&from_data=username&value_data="+user+"&select_field=uid&from_table=user";
             String data = dataurl.getData(url);
             
-            String url2 = "http://arwin.my.id/uangku/?op=get&from_data=username&value_data="+user+"&select_field=realname&from_table=user";
+            String url2 = "http://localhost/uangku/?op=get&from_data=username&value_data="+user+"&select_field=realname&from_table=user";
             String realname = dataurl.getData(url2);
             
             
@@ -417,14 +436,11 @@ public class FormData extends javax.swing.JFrame {
             
              
             String UID = Luid.getText();
-            String url = "http://arwin.my.id/uangku/?op=viewdata&uid="+UID;
-            
-        
+            String url = "http://localhost/uangku/?op=viewdata&uid="+UID;
         try {
             model.setRowCount(0);
             String datajson = dataurl.getData(url);
-            
-            
+
             
             Object obj=JSONValue.parse(datajson);
             JSONArray array=(JSONArray)obj;
@@ -445,11 +461,11 @@ public class FormData extends javax.swing.JFrame {
                     Object u_at = data.get("u_at");
                     
                     if("in".equals(type.toString())){
-                        Object[] row = { i+1 ,dates ,desc ,value ,"-" ,did };
+                        Object[] row = { i+1 ,token,dates ,desc ,value ,"-" ,did };
                         model.addRow(row);
                     }
                     else{
-                        Object[] row = { i+1 ,dates ,desc ,"-" ,value ,did };
+                        Object[] row = { i+1 ,token,dates ,desc ,"-" ,value ,did };
                         model.addRow(row);
                     }
                     System.out.println("did:"+did); 
@@ -464,10 +480,10 @@ public class FormData extends javax.swing.JFrame {
                     System.out.println("u_at:"+u_at);
                     System.out.println("----------------------------");
                 }
-                String saldo = "http://arwin.my.id/uangku/?op=saldodata&uid="+UID;
+                String saldo = "http://localhost/uangku/?op=saldodata&uid="+UID;
                 String datasaldo = dataurl.getData(saldo);
-                Object[] row1 = { "" ,"" ,"" ,"" ,"" ,"" };
-                Object[] row = { "" ,"" ,"Saldo" ,"" ,datasaldo ,"" };
+                Object[] row1 = { "" ,"","" ,"" ,"" ,"" ,"" };
+                Object[] row = { "" ,"","" ,"Saldo" ,"" ,datasaldo ,"" };
                 model.addRow(row1);
                 model.addRow(row);
                 
@@ -535,7 +551,7 @@ public class FormData extends javax.swing.JFrame {
         System.out.println("token : "+token);
         System.out.println("desc : "+desc);
         
-        String url = "http://arwin.my.id/uangku/?op=newdata&uid="+UID+"&date="+converted_date+"&token="+tokens+"&type="+converted_type+"&value="+value+"&desc="+descs;
+        String url = "http://localhost/uangku/?op=newdata&uid="+UID+"&date="+converted_date+"&token="+tokens+"&type="+converted_type+"&value="+value+"&desc="+descs;
         System.out.println(url);
 
             getDataURL dataurl = new getDataURL();
@@ -572,8 +588,9 @@ public class FormData extends javax.swing.JFrame {
 
     private void TbldataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbldataMouseClicked
        int row = Tbldata.getSelectedRow();
-       String did_from_click = (Tbldata.getModel().getValueAt(row,5).toString());
+       String did_from_click = (Tbldata.getModel().getValueAt(row,6).toString());
        System.out.println(did_from_click);
+       
     }//GEN-LAST:event_TbldataMouseClicked
 
     private void BrefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrefreshActionPerformed
@@ -594,7 +611,7 @@ public class FormData extends javax.swing.JFrame {
         
         String search = Tsearch.getText();
         String UID = Luid.getText();
-        String url = "http://arwin.my.id/uangku/?op=viewdata&uid="+UID+"&from="+cdatefrom+"&to="+cdateto+"&search="+search;
+        String url = "http://localhost/uangku/?op=viewdata&uid="+UID+"&from="+cdatefrom+"&to="+cdateto+"&search="+search;
         
         System.out.println(url);
         
@@ -640,13 +657,7 @@ public class FormData extends javax.swing.JFrame {
                     System.out.println("u_at:"+u_at);
                     System.out.println("----------------------------");
                 }
-                String saldo = "http://arwin.my.id/uangku/?op=saldodata&uid="+UID+"&from="+cdatefrom+"&to="+cdateto+"&search="+search;
-                String datasaldo = dataurl.getData(saldo);
-                Object[] row1 = { "" ,"" ,"" ,"" ,"" ,"" };
-                Object[] row = { "" ,"" ,"Saldo" ,"" ,datasaldo ,"" };
-                model.addRow(row1);
-                model.addRow(row);
-            
+                           
             
             
             Ttype.enable(true);
@@ -661,6 +672,53 @@ public class FormData extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_BfindMouseClicked
+
+    private void BeditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BeditMouseClicked
+        int row = Tbldata.getSelectedRow();
+        String uid = Luid.getText();
+        String did_from_click = (Tbldata.getModel().getValueAt(row,6).toString());
+        String token = (Tbldata.getModel().getValueAt(row,1).toString());
+        String dates = (Tbldata.getModel().getValueAt(row,2).toString());
+        String desc = (Tbldata.getModel().getValueAt(row,3).toString());
+        String debet = (Tbldata.getModel().getValueAt(row,4).toString());
+        String kredit = (Tbldata.getModel().getValueAt(row,5).toString());
+        
+        if(!"".equals(did_from_click)){
+            
+            String value;
+            String type;
+            if(!"-".equals(debet)){
+                value = debet;
+                type = "in";
+            }
+            else{
+                value = kredit;
+                type = "out"; 
+            }
+            System.out.println("uid: "+uid);
+            System.out.println("did: "+did_from_click);
+            System.out.println("date: "+dates);
+            System.out.println("desc: "+desc);
+            System.out.println("value: "+value);
+            System.out.println("type: "+type);
+            
+            String data = uid+"/"+did_from_click+"/"+token+"/"+dates+"/"+desc+"/"+value+"/"+type;
+            System.out.println(data);
+            
+            
+           FormEdit fedit = new FormEdit();
+           fedit.setTitle(data);
+           fedit.setLocationRelativeTo(null);
+           fedit.setVisible(true);
+           this.dispose();
+           
+        }
+        else{
+          JOptionPane.showMessageDialog(this,"Pilih terlebih dahulu datanya","Informasi",JOptionPane.ERROR_MESSAGE);  
+        }
+        
+        
+    }//GEN-LAST:event_BeditMouseClicked
     
     /**
      * @param args the command line arguments
@@ -699,6 +757,8 @@ public class FormData extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Bdelete;
+    private javax.swing.JButton Bedit;
     private javax.swing.JButton Bfind;
     private javax.swing.JButton Brefresh;
     private javax.swing.JButton Bsave;
