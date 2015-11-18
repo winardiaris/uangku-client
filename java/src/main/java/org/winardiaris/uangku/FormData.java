@@ -616,7 +616,17 @@ public class FormData extends javax.swing.JFrame {
         
         String search = Tsearch.getText();
         String UID = Luid.getText();
-        String url = "http://localhost/uangku/?op=viewdata&uid="+UID+"&from="+cdatefrom+"&to="+cdateto+"&search="+search;
+        String url = null;
+       
+        if("".equals(search)){
+         url = "http://localhost/uangku/?op=viewdata&uid="+UID+"&from="+cdatefrom+"&to="+cdateto;   
+        }
+        else if("".equals(cdatefrom) || "".equals(cdateto)){
+         url = "http://localhost/uangku/?op=viewdata&uid="+UID+"&search="+search;
+        }
+        else{
+          url = "http://localhost/uangku/?op=viewdata&uid="+UID+"&search="+search+"&from="+cdatefrom+"&to="+cdateto;  
+        }
         
         System.out.println(url);
         
@@ -643,11 +653,11 @@ public class FormData extends javax.swing.JFrame {
                     Object u_at = data.get("u_at");
                     
                     if("in".equals(type.toString())){
-                        Object[] row = { i+1 ,dates ,desc ,value ,"-" ,did };
+                        Object[] row = { i+1 ,token,dates ,desc ,value ,"-" ,did };
                         model.addRow(row);
                     }
                     else{
-                        Object[] row = { i+1 ,dates ,desc ,"-" ,value ,did };
+                        Object[] row = { i+1 ,token,dates ,desc ,"-" ,value ,did };
                         model.addRow(row);
                     }
                     System.out.println("did:"+did); 
@@ -670,8 +680,7 @@ public class FormData extends javax.swing.JFrame {
             Tvalue.setEnabled(true);
             Tdesc.setEnabled(true);
             Ttoken.setEnabled(true);
-            
-            setTableData();
+
         } catch (IOException ex) {
             Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -726,18 +735,23 @@ public class FormData extends javax.swing.JFrame {
     }//GEN-LAST:event_BeditMouseClicked
 
     private void BdeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BdeleteMouseClicked
+        String uid = Luid.getText();
         int row = Tbldata.getSelectedRow();
-        int result = JOptionPane.showConfirmDialog((Component) null, "Yakin mau di hapus?",
-        "konfirmasi", JOptionPane.OK_CANCEL_OPTION);
+        String did = (Tbldata.getModel().getValueAt(row,6).toString());
+        if(!"".equals(did)){
+            int result = JOptionPane.showConfirmDialog((Component) null, "Yakin mau di hapus?","konfirmasi", JOptionPane.OK_CANCEL_OPTION);
         
-        if(result==JOptionPane.OK_OPTION){
-            String uid = Luid.getText();
-            String did = (Tbldata.getModel().getValueAt(row,6).toString());
-            this.dispose();
-            FormDelete del = new FormDelete();
-            del.setTitle(uid+"/"+did);
-            del.setLocationRelativeTo(null);
-            del.setVisible(true);
+            if(result==JOptionPane.OK_OPTION){
+            
+                this.dispose();
+                FormDelete del = new FormDelete();
+                del.setTitle(uid+"/"+did);
+                del.setLocationRelativeTo(null);
+                del.setVisible(true);
+            }
+        }
+        else{
+          JOptionPane.showMessageDialog(this,"Pilih terlebih dahulu datanya","Informasi",JOptionPane.ERROR_MESSAGE);  
         }
 
     }//GEN-LAST:event_BdeleteMouseClicked
