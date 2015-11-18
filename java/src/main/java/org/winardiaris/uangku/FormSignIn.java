@@ -135,10 +135,13 @@ public class FormSignIn extends javax.swing.JFrame {
         String pass;
         pass = DigestUtils.md5Hex(password_text);
        String url = "http://localhost/uangku/?op=login&username="+user+"&password="+pass;
+       String urluid = "http://localhost/uangku/?op=get&from_data=username&value_data="+user+"&select_field=uid&from_table=user";
+            
         
        getDataURL dataurl = new getDataURL();
         try {
             String data = dataurl.getData(url);
+            String uid = dataurl.getData(urluid);
             System.out.println(data);
             
             if("1".equals(data)){
@@ -146,7 +149,7 @@ public class FormSignIn extends javax.swing.JFrame {
                  this.dispose();
                  
                  FormData fdata = new FormData();
-                 fdata.setTitle(user);
+                 fdata.setTitle(uid);
                  
                  fdata.setLocationRelativeTo(null);
                  fdata.setVisible(true);

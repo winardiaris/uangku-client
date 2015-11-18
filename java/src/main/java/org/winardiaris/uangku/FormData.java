@@ -5,6 +5,7 @@
  */
 package org.winardiaris.uangku;
 
+import java.awt.Component;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -32,7 +33,71 @@ public class FormData extends javax.swing.JFrame {
         initComponents();
     }
     public void setTableData(){
-        Tbldata.getColumn("No").setWidth(1); //no
+        getDataURL dataurl = new getDataURL();
+             JSONParser parser = new JSONParser();
+             DefaultTableModel model = (DefaultTableModel) Tbldata.getModel(); 
+            
+             
+            String UID = Luid.getText();
+            String url = "http://localhost/uangku/?op=viewdata&uid="+UID;
+        try {
+            model.setRowCount(0);
+            String datajson = dataurl.getData(url);
+
+            
+            Object obj=JSONValue.parse(datajson);
+            JSONArray array=(JSONArray)obj;
+            
+             int banyak = array.size();
+             System.out.println(banyak); 
+                for(int i=0;i<banyak;i++){
+                    JSONObject data=(JSONObject)array.get(i);
+                    Object did = data.get("did"); 
+                    Object uid = data.get("uid"); 
+                    Object dates = data.get("date"); 
+                    Object token = data.get("token"); 
+                    Object type = data.get("type"); 
+                    Object value = data.get("value"); 
+                    Object desc = data.get("desc"); 
+                    Object status = data.get("status"); 
+                    Object c_at = data.get("c_at"); 
+                    Object u_at = data.get("u_at");
+                    
+                    if("in".equals(type.toString())){
+                        Object[] row = { i+1 ,token,dates ,desc ,value ,"-" ,did };
+                        model.addRow(row);
+                    }
+                    else{
+                        Object[] row = { i+1 ,token,dates ,desc ,"-" ,value ,did };
+                        model.addRow(row);
+                    }
+                    System.out.println("did:"+did); 
+                    System.out.println("uid:"+uid); 
+                    System.out.println("date:"+dates); 
+                    System.out.println("token:"+token); 
+                    System.out.println("type:"+type); 
+                    System.out.println("value:"+value); 
+                    System.out.println("desc:"+desc); 
+                    System.out.println("status:"+status); 
+                    System.out.println("c_at:"+c_at); 
+                    System.out.println("u_at:"+u_at);
+                    System.out.println("----------------------------");
+                }
+                String saldo = "http://localhost/uangku/?op=saldodata&uid="+UID;
+                String datasaldo = dataurl.getData(saldo);
+                Object[] row1 = { "" ,"","" ,"" ,"" ,"" ,"" };
+                Object[] row = { "" ,"","" ,"Saldo" ,"" ,datasaldo ,"" };
+                model.addRow(row1);
+                model.addRow(row);
+                
+            FTambahBersih();
+        } catch (IOException ex) {
+            Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+
+//Tbldata.getColumn("No").setWidth(1); //no
 //        Tbldata.getColumnModel().getColumn(1).setPreferredWidth(12); //tanggal
 //           
 //        Tbldata.getColumnModel().getColumn(3).setPreferredWidth(9); //debet
@@ -260,6 +325,11 @@ public class FormData extends javax.swing.JFrame {
         jLabel7.setText("Cari");
 
         Bdelete.setText("Hapus");
+        Bdelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BdeleteMouseClicked(evt);
+            }
+        });
 
         Bedit.setText("Perbaharui");
         Bedit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -400,28 +470,24 @@ public class FormData extends javax.swing.JFrame {
         try {
             getDataURL dataurl = new getDataURL();
             
-            String user = this.getTitle();
-            String url = "http://localhost/uangku/?op=get&from_data=username&value_data="+user+"&select_field=uid&from_table=user";
-            String data = dataurl.getData(url);
+            String uid = this.getTitle();
             
-            String url2 = "http://localhost/uangku/?op=get&from_data=username&value_data="+user+"&select_field=realname&from_table=user";
+            String url1 = "http://localhost/uangku/?op=get&from_data=uid&value_data="+uid+"&select_field=username&from_table=user";
+            String username = dataurl.getData(url1);
+            String url2 = "http://localhost/uangku/?op=get&from_data=uid&value_data="+uid+"&select_field=realname&from_table=user";
             String realname = dataurl.getData(url2);
             
-            
             System.out.println("----------------------------------------");
-            System.out.println("UID: "+data);
-            System.out.println("username: "+user);
+            System.out.println("UID: "+uid);
+            System.out.println("username: "+username);
             System.out.println("realname: "+realname);
             System.out.println("----------------------------------------");
            
-            Luid.setText(data);
-            Lusername.setText(user);
+            Luid.setText(uid);
+            Lusername.setText(username);
             Lrealname.setText(realname);
           
-            setTableData();
-            
-            
-            
+//            setTableData();
             
             //this.setTitle("Uangku - "+realname);
         } catch (IOException ex) {
@@ -430,68 +496,7 @@ public class FormData extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void BrefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BrefreshMouseClicked
-             getDataURL dataurl = new getDataURL();
-             JSONParser parser = new JSONParser();
-             DefaultTableModel model = (DefaultTableModel) Tbldata.getModel(); 
-            
-             
-            String UID = Luid.getText();
-            String url = "http://localhost/uangku/?op=viewdata&uid="+UID;
-        try {
-            model.setRowCount(0);
-            String datajson = dataurl.getData(url);
-
-            
-            Object obj=JSONValue.parse(datajson);
-            JSONArray array=(JSONArray)obj;
-            
-             int banyak = array.size();
-             System.out.println(banyak); 
-                for(int i=0;i<banyak;i++){
-                    JSONObject data=(JSONObject)array.get(i);
-                    Object did = data.get("did"); 
-                    Object uid = data.get("uid"); 
-                    Object dates = data.get("date"); 
-                    Object token = data.get("token"); 
-                    Object type = data.get("type"); 
-                    Object value = data.get("value"); 
-                    Object desc = data.get("desc"); 
-                    Object status = data.get("status"); 
-                    Object c_at = data.get("c_at"); 
-                    Object u_at = data.get("u_at");
-                    
-                    if("in".equals(type.toString())){
-                        Object[] row = { i+1 ,token,dates ,desc ,value ,"-" ,did };
-                        model.addRow(row);
-                    }
-                    else{
-                        Object[] row = { i+1 ,token,dates ,desc ,"-" ,value ,did };
-                        model.addRow(row);
-                    }
-                    System.out.println("did:"+did); 
-                    System.out.println("uid:"+uid); 
-                    System.out.println("date:"+dates); 
-                    System.out.println("token:"+token); 
-                    System.out.println("type:"+type); 
-                    System.out.println("value:"+value); 
-                    System.out.println("desc:"+desc); 
-                    System.out.println("status:"+status); 
-                    System.out.println("c_at:"+c_at); 
-                    System.out.println("u_at:"+u_at);
-                    System.out.println("----------------------------");
-                }
-                String saldo = "http://localhost/uangku/?op=saldodata&uid="+UID;
-                String datasaldo = dataurl.getData(saldo);
-                Object[] row1 = { "" ,"","" ,"" ,"" ,"" ,"" };
-                Object[] row = { "" ,"","" ,"Saldo" ,"" ,datasaldo ,"" };
-                model.addRow(row1);
-                model.addRow(row);
-                
-            FTambahBersih();
-            setTableData();
-        } catch (IOException ex) {
-            Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
-        }
+           setTableData();
     }//GEN-LAST:event_BrefreshMouseClicked
 
     private void BsignoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BsignoutMouseClicked
@@ -567,7 +572,7 @@ public class FormData extends javax.swing.JFrame {
                 FTambahBersih();
             }
             else{
-                JOptionPane.showMessageDialog(this,"Nama Pengguna / Kata Sandi Salah","Informasi",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,"data gagal disimpan","Informasi",JOptionPane.ERROR_MESSAGE);
                 Tdate.setFocusable(true);
             }
         } catch (IOException ex) {
@@ -719,6 +724,23 @@ public class FormData extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_BeditMouseClicked
+
+    private void BdeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BdeleteMouseClicked
+        int row = Tbldata.getSelectedRow();
+        int result = JOptionPane.showConfirmDialog((Component) null, "Yakin mau di hapus?",
+        "konfirmasi", JOptionPane.OK_CANCEL_OPTION);
+        
+        if(result==JOptionPane.OK_OPTION){
+            String uid = Luid.getText();
+            String did = (Tbldata.getModel().getValueAt(row,6).toString());
+            this.dispose();
+            FormDelete del = new FormDelete();
+            del.setTitle(uid+"/"+did);
+            del.setLocationRelativeTo(null);
+            del.setVisible(true);
+        }
+
+    }//GEN-LAST:event_BdeleteMouseClicked
     
     /**
      * @param args the command line arguments

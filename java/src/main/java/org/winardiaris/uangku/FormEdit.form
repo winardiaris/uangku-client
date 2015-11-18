@@ -186,8 +186,11 @@
     </Component>
     <Component class="javax.swing.JButton" name="Bcancel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Batal"/>
+        <Property name="text" type="java.lang.String" value="Keluar"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BcancelMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="Luid">
       <Properties>

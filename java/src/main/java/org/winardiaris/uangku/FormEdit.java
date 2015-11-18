@@ -5,9 +5,15 @@
  */
 package org.winardiaris.uangku;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -92,7 +98,12 @@ public class FormEdit extends javax.swing.JFrame {
             }
         });
 
-        Bcancel.setText("Batal");
+        Bcancel.setText("Keluar");
+        Bcancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BcancelMouseClicked(evt);
+            }
+        });
 
         Luid.setText("UID");
 
@@ -177,21 +188,83 @@ public class FormEdit extends javax.swing.JFrame {
     }//GEN-LAST:event_TtokenActionPerformed
 
     private void BsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BsaveMouseClicked
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = Tdate.getDate();
+        
+        String UID = Luid.getText();
+        String did  = Ldid.getText();
+        String type = Ttype.getSelectedItem().toString();
+        String converted_type;
+        String converted_date = formatter.format(date);
+        String token = Ttoken.getText();
+        String tokens = null;
+        try {
+            tokens = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String value = Tvalue.getText();
+        String desc =  Tdesc.getText();
+        String descs = null;
+        try {
+            descs = URLEncoder.encode(desc, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if("Debet".equals(type)){
+            converted_type = "in";
+        }
+        else{
+            converted_type = "out";
+        }
+        
+        System.out.println("type : "+converted_type);
+        System.out.println("date : "+converted_date);
+        System.out.println("value : "+value);
+        System.out.println("token : "+token);
+        System.out.println("desc : "+desc);
+        
+        String url = "http://localhost/uangku/?op=updatedata&uid="+UID+"&did="+did+"&date="+converted_date+"&token="+tokens+"&type="+converted_type+"&value="+value+"&desc="+descs;
+        System.out.println(url);
 
+            getDataURL dataurl = new getDataURL();
+            String data;
+        
+        try {
+            data = dataurl.getData(url);
+            System.out.println(data);
+            
+            if("1".equals(data)){
+                JOptionPane.showMessageDialog(this,"Data berhasi disimpan","Informasi",JOptionPane.INFORMATION_MESSAGE);
+                
+//                FTambahBersih();
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"data gagal disimpan","Informasi",JOptionPane.ERROR_MESSAGE);
+                Tdate.setFocusable(true);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_BsaveMouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-//        /String data = uid+"/"+did_from_click+"/"+dates+"/"+desc+"/"+value+"/"+type;
+//        /String data = data = uid+"/"+did_from_click+"/"+token+"/"+dates+"/"+desc+"/"+value+"/"+type;
         getDataURL dataurl = new getDataURL();
-        String titles = this.getTitle();
-        String[] data = titles.split("/");
-        String uid = data[0];
-        String did = data[1];
-        String token = data[2];
-        String desc = data[4];
-        String value = data[5];
-        String type = data[6];
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        
+        String titles   = this.getTitle();
+        String[] data   = titles.split("/");
+        String uid      = data[0];
+        String did      = data[1];
+        String token    = data[2];
+        String dates_    = data[3];
+        Date dates;
+        String desc     = data[4];
+        String value    = data[5];
+        String type     = data[6];
         
         Ldid.setText(did);
         Luid.setText(uid);
@@ -204,21 +277,35 @@ public class FormEdit extends javax.swing.JFrame {
         else{
           Ttype.setSelectedItem("Kredit");
         }
-        Tdate.setDate(Date dates);
+        try {
+            dates = formatter.parse(dates_);
+            System.out.println(dates);
+            Tdate.setDate(dates);
+        } catch (ParseException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
        
         
         System.out.println("formedit===========");
         System.out.println(titles);
         System.out.println("uid: "+uid);
-            System.out.println("did: "+did);
-            System.out.println("token: "+token);
-            System.out.println("date: "+dates);
-            System.out.println("desc: "+desc);
-            System.out.println("value: "+value);
-            System.out.println("type: "+type);
+        System.out.println("did: "+did);
+        System.out.println("token: "+token);
+        System.out.println("date: "+dates_);
+        System.out.println("desc: "+desc);
+        System.out.println("value: "+value);
+        System.out.println("type: "+type);
         
     }//GEN-LAST:event_formWindowActivated
+
+    private void BcancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BcancelMouseClicked
+       this.dispose();
+       FormData fdata = new FormData();
+       fdata.setTitle(Luid.getText());
+       fdata.setLocationRelativeTo(null);
+       fdata.setVisible(true);
+    }//GEN-LAST:event_BcancelMouseClicked
 
     /**
      * @param args the command line arguments

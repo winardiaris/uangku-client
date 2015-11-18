@@ -176,14 +176,12 @@ public class FormUserPreference extends javax.swing.JFrame {
     private void BcancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BcancelMouseClicked
        this.dispose();
        FormData fdata = new FormData();
-       fdata.setTitle(Tusername.getText());
+       fdata.setTitle(Luid.getText());
        fdata.setLocationRelativeTo(null);
        fdata.setVisible(true);
     }//GEN-LAST:event_BcancelMouseClicked
 
     private void BsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BsaveMouseClicked
-       
-        
        String UID = Luid.getText();
        String username = Tusername.getText();
        String realname = Trealname.getText();
@@ -255,7 +253,6 @@ public class FormUserPreference extends javax.swing.JFrame {
             Llastupdate.setText(data_lastupdate);
             
             Luid.setText(this.getTitle());
-            this.setTitle("Uangku - "+data_realname);
             
         } catch (IOException ex) {
             Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
