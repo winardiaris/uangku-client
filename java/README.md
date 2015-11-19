@@ -13,8 +13,8 @@ Setelah diuduh ubah berkas tersebut menjadi berkas yang dapat di eksekusi.
 ####Linux & Mac
 via terminal masuk kedalam folder unduhan. lalu, ketikan baris berikut:
 ```bash
-chmod +x uangku-0.1.1-jar-with-dependencies.jar
-java -jar uangku-0.1.1-jar-with-dependencies.jar
+chmod +x uangku-0.1.x-jar-with-dependencies.jar
+java -jar uangku-0.1.x-jar-with-dependencies.jar
 
 ```
 ####Windows
@@ -23,11 +23,10 @@ via file explorer masuk kedalam folder unduhan. lalu
  
  Right Click ->  Properties -> Change -> C:\Program Files\Java\jre7\bin\javaw.exe
  
- Double Click pada berkas  uangku-0.1.1-jar-with-dependencies.jar
+ Double Click pada berkas  uangku-0.1.x-jar-with-dependencies.jar
  
  ```
- 
-lalu klik dua kali pada berkas **uangku-0.1.1-jar-with-dependencies.jar** dan akan tampil sepeti berikut:
+
 
 - **Halaman masuk**
 
