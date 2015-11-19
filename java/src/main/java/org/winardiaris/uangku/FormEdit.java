@@ -14,6 +14,11 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -64,11 +69,6 @@ public class FormEdit extends javax.swing.JFrame {
 
         Ttype.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Debet", "Kredit" }));
         Ttype.setName("Ftype"); // NOI18N
-        Ttype.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TtypeActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Tanggal");
 
@@ -79,11 +79,6 @@ public class FormEdit extends javax.swing.JFrame {
         jLabel2.setText("No. Bukti");
 
         Ttoken.setName("Ftoken"); // NOI18N
-        Ttoken.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TtokenActionPerformed(evt);
-            }
-        });
 
         jLabel4.setText("Keterangan");
 
@@ -179,14 +174,6 @@ public class FormEdit extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TtypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TtypeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TtypeActionPerformed
-
-    private void TtokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TtokenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TtokenActionPerformed
-
     private void BsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BsaveMouseClicked
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = Tdate.getDate();
@@ -237,8 +224,6 @@ public class FormEdit extends javax.swing.JFrame {
             
             if("1".equals(data)){
                 JOptionPane.showMessageDialog(this,"Data berhasi disimpan","Informasi",JOptionPane.INFORMATION_MESSAGE);
-                
-//                FTambahBersih();
             }
             else{
                 JOptionPane.showMessageDialog(this,"data gagal disimpan","Informasi",JOptionPane.ERROR_MESSAGE);
@@ -251,52 +236,68 @@ public class FormEdit extends javax.swing.JFrame {
     }//GEN-LAST:event_BsaveMouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-//        /String data = data = uid+"/"+did_from_click+"/"+token+"/"+dates+"/"+desc+"/"+value+"/"+type;
+
         getDataURL dataurl = new getDataURL();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        JSONParser parser = new JSONParser();
+        String[] titles   = this.getTitle().split("/");
+        String uid = titles[0];
+        String did = titles[1];
+        String url = "http://localhost/uangku/?op=viewdata&uid="+uid+"&did="+did;
         
-        String titles   = this.getTitle();
-        String[] data   = titles.split("/");
-        String uid      = data[0];
-        String did      = data[1];
-        String token    = data[2];
-        String dates_    = data[3];
-        Date dates;
-        String desc     = data[4];
-        String value    = data[5];
-        String type     = data[6];
-        
-        Ldid.setText(did);
-        Luid.setText(uid);
-        Tvalue.setText(value);
-        Ttoken.setText(token);
-        Tdesc.setText(desc);
-        if("in".equals(type)){
-           Ttype.setSelectedItem("Debet");
-        }
-        else{
-          Ttype.setSelectedItem("Kredit");
-        }
+        String datajson;
         try {
-            dates = formatter.parse(dates_);
-            System.out.println(dates);
-            Tdate.setDate(dates);
-        } catch (ParseException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-       
-        
-        System.out.println("formedit===========");
-        System.out.println(titles);
-        System.out.println("uid: "+uid);
-        System.out.println("did: "+did);
-        System.out.println("token: "+token);
-        System.out.println("date: "+dates_);
-        System.out.println("desc: "+desc);
-        System.out.println("value: "+value);
-        System.out.println("type: "+type);
-        
+            datajson = dataurl.getData(url);
+            Object obj=JSONValue.parse(datajson);
+            JSONArray array=(JSONArray)obj;
+            int banyak = array.size();
+            System.out.println("banyak data:"+banyak);
+            for(int i=0;i<banyak;i++){
+                JSONObject data=(JSONObject)array.get(i);
+                Object did_ = data.get("did");
+                Object uid_ = data.get("uid"); 
+                Date dates_ = null;
+                Object dates = data.get("date");
+                Object token = data.get("token");
+                Object type = data.get("type");
+                Object value = data.get("value");
+                Object desc = data.get("desc");
+                Object status = data.get("status");
+                Object c_at = data.get("c_at");
+                Object u_at = data.get("u_at");
+            
+            
+                Luid.setText(uid);
+                Ldid.setText(did);
+                Tvalue.setText((String) value);
+                Ttoken.setText((String) token);
+                Tdesc.setText((String) desc);
+                if("in".equals(type)){
+                   Ttype.setSelectedItem("Debet");
+                }
+                else{
+                  Ttype.setSelectedItem("Kredit");
+                }
+                try {
+                    dates_ = formatter.parse((String) dates);
+                    System.out.println(dates);
+                    Tdate.setDate(dates_);
+                } catch (ParseException ex) {
+                    Logger.getLogger(FormEdit.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                System.out.println("formedit===========");
+                System.out.println("uid: "+uid);
+                System.out.println("did: "+did);
+                System.out.println("token: "+token);
+                System.out.println("date: "+dates_);
+                System.out.println("desc: "+desc);
+                System.out.println("value: "+value);
+                System.out.println("type: "+type);
+            }         
+        } catch (IOException ex) {
+            Logger.getLogger(FormEdit.class.getName()).log(Level.SEVERE, null, ex);
+        }        
     }//GEN-LAST:event_formWindowActivated
 
     private void BcancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BcancelMouseClicked

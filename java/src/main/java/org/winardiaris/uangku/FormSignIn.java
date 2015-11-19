@@ -148,6 +148,8 @@ public class FormSignIn extends javax.swing.JFrame {
                  JOptionPane.showMessageDialog(this,"Berhasil","Informasi",JOptionPane.INFORMATION_MESSAGE);
                  this.dispose();
                  
+                
+                 
                  FormData fdata = new FormData();
                  fdata.setTitle(uid);
                  

@@ -94,15 +94,6 @@ public class FormData extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-
-//Tbldata.getColumn("No").setWidth(1); //no
-//        Tbldata.getColumnModel().getColumn(1).setPreferredWidth(12); //tanggal
-//           
-//        Tbldata.getColumnModel().getColumn(3).setPreferredWidth(9); //debet
-//        Tbldata.getColumnModel().getColumn(4).setPreferredWidth(9); //kredit
-//        Tbldata.getColumnModel().getColumn(5).setPreferredWidth(3); //debet
     }
     public void FTambahBersih(){
         Tvalue.setText("");
@@ -178,6 +169,12 @@ public class FormData extends javax.swing.JFrame {
         Bsignout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BsignoutMouseClicked(evt);
+            }
+        });
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
             }
         });
 
@@ -594,7 +591,7 @@ public class FormData extends javax.swing.JFrame {
     private void TbldataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbldataMouseClicked
        int row = Tbldata.getSelectedRow();
        String did_from_click = (Tbldata.getModel().getValueAt(row,6).toString());
-       System.out.println(did_from_click);
+       System.out.println("did yang diklik: "+did_from_click);
        
     }//GEN-LAST:event_TbldataMouseClicked
 
@@ -690,38 +687,19 @@ public class FormData extends javax.swing.JFrame {
     private void BeditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BeditMouseClicked
         int row = Tbldata.getSelectedRow();
         String uid = Luid.getText();
-        String did_from_click = (Tbldata.getModel().getValueAt(row,6).toString());
-        String token = (Tbldata.getModel().getValueAt(row,1).toString());
-        String dates = (Tbldata.getModel().getValueAt(row,2).toString());
-        String desc = (Tbldata.getModel().getValueAt(row,3).toString());
-        String debet = (Tbldata.getModel().getValueAt(row,4).toString());
-        String kredit = (Tbldata.getModel().getValueAt(row,5).toString());
-        
-        if(!"".equals(did_from_click)){
+        String did = (Tbldata.getModel().getValueAt(row,6).toString());
+                
+        if(!"".equals(did)){
             
             String value;
             String type;
-            if(!"-".equals(debet)){
-                value = debet;
-                type = "in";
-            }
-            else{
-                value = kredit;
-                type = "out"; 
-            }
-            System.out.println("uid: "+uid);
-            System.out.println("did: "+did_from_click);
-            System.out.println("date: "+dates);
-            System.out.println("desc: "+desc);
-            System.out.println("value: "+value);
-            System.out.println("type: "+type);
             
-            String data = uid+"/"+did_from_click+"/"+token+"/"+dates+"/"+desc+"/"+value+"/"+type;
-            System.out.println(data);
+            System.out.println("uid: "+uid);
+            System.out.println("did: "+did);
             
             
            FormEdit fedit = new FormEdit();
-           fedit.setTitle(data);
+           fedit.setTitle(uid+"/"+did);
            fedit.setLocationRelativeTo(null);
            fedit.setVisible(true);
            this.dispose();
@@ -755,6 +733,10 @@ public class FormData extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_BdeleteMouseClicked
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+       setTableData();
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
     
     /**
      * @param args the command line arguments
