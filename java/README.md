@@ -29,7 +29,7 @@ via file explorer masuk kedalam folder unduhan. lalu
  
 lalu klik dua kali pada berkas **uangku-0.1.1-jar-with-dependencies.jar** dan akan tampil sepeti berikut:
 
-- **Halaman masuk **
+- **Halaman masuk**
 
 	![signin](https://github.com/winardiaris/uangku-client/raw/master/files/Java/01.login.png)
 	
