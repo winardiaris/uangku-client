@@ -181,7 +181,7 @@ public class FormData extends javax.swing.JFrame {
 
         jLabel1.setText("Jenis Keuangan");
 
-        jLabel3.setText("Tanggal");
+        jLabel3.setText("Tanggal*");
 
         Ttype.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Debet", "Kredit" }));
         Ttype.setName("Ftype"); // NOI18N
@@ -198,15 +198,15 @@ public class FormData extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Keterangan");
+        jLabel4.setText("Keterangan*");
 
-        jLabel2.setText("No. Bukti");
+        jLabel2.setText("No. Bukti*");
 
         Tdesc.setColumns(20);
         Tdesc.setRows(5);
         jScrollPane1.setViewportView(Tdesc);
 
-        Ljumlah.setText("Jumlah");
+        Ljumlah.setText("Jumlah*");
 
         Tvalue.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
@@ -526,7 +526,7 @@ public class FormData extends javax.swing.JFrame {
         String UID = Luid.getText();
         String type = Ttype.getSelectedItem().toString();
         String converted_type;
-        String converted_date = formatter.format(date);
+        
         String token = Ttoken.getText();
         String tokens = null;
         try {
@@ -543,42 +543,58 @@ public class FormData extends javax.swing.JFrame {
             Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if("Debet".equals(type)){
-            converted_type = "in";
+      
+        
+        
+        if(date == null){
+            JOptionPane.showMessageDialog(this,"Isi tanggal terlebih dahulu","Informasi",JOptionPane.ERROR_MESSAGE);
+            Tdate.requestFocus(true);
+        }
+        else if("".equals(value)){
+            JOptionPane.showMessageDialog(this,"Isi jumlah terlebih dahulu","Informasi",JOptionPane.ERROR_MESSAGE);
+            Tvalue.requestFocus(true);
+        }
+        else if("".equals(token)){
+            JOptionPane.showMessageDialog(this,"Isi No.bukti terlebih dahulu","Informasi",JOptionPane.ERROR_MESSAGE);
+            Ttoken.requestFocus(true);
+        }
+        else if("".equals(desc)){
+            JOptionPane.showMessageDialog(this,"Isi deskripsi terlebih dahulu","Informasi",JOptionPane.ERROR_MESSAGE);
+            Tdesc.requestFocus(true);
         }
         else{
-            converted_type = "out";
-        }
-        
-        System.out.println("type : "+converted_type);
-        System.out.println("date : "+converted_date);
-        System.out.println("value : "+value);
-        System.out.println("token : "+token);
-        System.out.println("desc : "+desc);
-        
-        String url = base_url+"?op=newdata&uid="+UID+"&date="+converted_date+"&token="+tokens+"&type="+converted_type+"&value="+value+"&desc="+descs;
-        System.out.println(url);
+            if("Debet".equals(type)){converted_type = "in";}
+            else{converted_type = "out";}
+            
+            String converted_date = formatter.format(date);
+            
+            System.out.println("type : "+converted_type);
+            System.out.println("date : "+converted_date);
+            System.out.println("value : "+value);
+            System.out.println("token : "+token);
+            System.out.println("desc : "+desc);
+
+            String url = base_url+"?op=newdata&uid="+UID+"&date="+converted_date+"&token="+tokens+"&type="+converted_type+"&value="+value+"&desc="+descs;
+            System.out.println(url);
             String data;
-        
-        try {
-            data = dataurl.getData(url);
-            System.out.println(data);
-            
-            if("1".equals(data)){
-                JOptionPane.showMessageDialog(this,"Data berhasi disimpan","Informasi",JOptionPane.INFORMATION_MESSAGE);
-                
-                FTambahBersih();
+
+            try {
+                data = dataurl.getData(url);
+                System.out.println(data);
+
+                if("1".equals(data)){
+                    JOptionPane.showMessageDialog(this,"Data berhasi disimpan","Informasi",JOptionPane.INFORMATION_MESSAGE);
+
+                    FTambahBersih();
+                }
+                else{
+                    JOptionPane.showMessageDialog(this,"data gagal disimpan","Informasi",JOptionPane.ERROR_MESSAGE);
+                    Tdate.setFocusable(true);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
             }
-            else{
-                JOptionPane.showMessageDialog(this,"data gagal disimpan","Informasi",JOptionPane.ERROR_MESSAGE);
-                Tdate.setFocusable(true);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-        
-        
     }//GEN-LAST:event_BsaveMouseClicked
 
     private void BuserpreferenceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuserpreferenceMouseClicked
@@ -610,20 +626,26 @@ public class FormData extends javax.swing.JFrame {
         Date datefrom = Tdatefrom.getDate();
         Date dateto = Tdateto.getDate();
         
-        String cdatefrom = formatter.format(datefrom);
-        String cdateto = formatter.format(dateto);
+        
         
         String search = Tsearch.getText();
         String UID = Luid.getText();
         String url = null;
        
-        if("".equals(search)){
-         url = base_url+"?op=viewdata&uid="+UID+"&from="+cdatefrom+"&to="+cdateto;   
-        }
-        else if("".equals(cdatefrom) || "".equals(cdateto)){
+        if(!"".equals(search)){
          url = base_url+"?op=viewdata&uid="+UID+"&search="+search;
         }
+        else if(datefrom != null || dateto != null){
+         String cdatefrom = formatter.format(datefrom);
+         String cdateto = formatter.format(dateto);
+         url = base_url+"?op=viewdata&uid="+UID+"&from="+cdatefrom+"&to="+cdateto; 
+        }
+        else if(datefrom==null && dateto==null && "".equals(search)){
+         url = base_url+"?op=viewdata&uid="+UID;
+        }
         else{
+          String cdatefrom = formatter.format(datefrom);
+          String cdateto = formatter.format(dateto);
           url = base_url+"?op=viewdata&uid="+UID+"&search="+search+"&from="+cdatefrom+"&to="+cdateto;  
         }
         

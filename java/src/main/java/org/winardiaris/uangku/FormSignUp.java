@@ -128,25 +128,40 @@ public class FormSignUp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BsignupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BsignupMouseClicked
+        getDataURL dataurl = new getDataURL();
+        String base_url = dataurl.getUrlBase();
         String realname = Trealname.getText();
         String username = Tusername.getText();
         String password_text = Tpassword.getText();
         String password;
-        password = DigestUtils.md5Hex(password_text);
-        String url = "http://localhost/uangku/?op=newuser&username="+username+"&password="+password+"&realname="+realname;
         
-        getDataURL dataurl = new getDataURL();
-        try {
-            String data = dataurl.getData(url);
-            System.out.println(data);
-            
-            JOptionPane.showMessageDialog(this,"Berhasil, selamat begabung","Informasi",JOptionPane.INFORMATION_MESSAGE);
-            FormSignIn f = new FormSignIn();
-            f.setLocationRelativeTo(null);
-            f.setVisible(true);
-            this.dispose();
-        } catch (IOException ex) {
-            Logger.getLogger(FormSignUp.class.getName()).log(Level.SEVERE, null, ex);
+        if("".equals(realname)){
+            JOptionPane.showMessageDialog(this,"Isi Nama lengkap terlebih dahulu","Informasi",JOptionPane.ERROR_MESSAGE);
+            Trealname.requestFocus(true);
+        }
+        else if("".equals(username)){
+            JOptionPane.showMessageDialog(this,"Isi nama pengguna terlebih dahulu","Informasi",JOptionPane.ERROR_MESSAGE);
+            Tusername.requestFocus(true);
+        }
+        else if("".equals(password_text)){
+            JOptionPane.showMessageDialog(this,"Isi password terlebih dahulu","Informasi",JOptionPane.ERROR_MESSAGE);
+            Tpassword.requestFocus(true);
+        }
+        else{
+            password = DigestUtils.md5Hex(password_text);
+            String url = base_url+"?op=newuser&username="+username+"&password="+password+"&realname="+realname;
+            try {
+                String data = dataurl.getData(url);
+                System.out.println(data);
+
+                JOptionPane.showMessageDialog(this,"Berhasil, selamat begabung","Informasi",JOptionPane.INFORMATION_MESSAGE);
+                FormSignIn f = new FormSignIn();
+                f.setLocationRelativeTo(null);
+                f.setVisible(true);
+                this.dispose();
+            } catch (IOException ex) {
+                Logger.getLogger(FormSignUp.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_BsignupMouseClicked
 

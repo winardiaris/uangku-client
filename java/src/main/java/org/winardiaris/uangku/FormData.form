@@ -202,7 +202,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Tanggal"/>
+                <Property name="text" type="java.lang.String" value="Tanggal*"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="Ttype">
@@ -229,12 +229,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Keterangan"/>
+                <Property name="text" type="java.lang.String" value="Keterangan*"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="No. Bukti"/>
+                <Property name="text" type="java.lang.String" value="No. Bukti*"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -256,7 +256,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="Ljumlah">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Jumlah"/>
+                <Property name="text" type="java.lang.String" value="Jumlah*"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="Tvalue">
