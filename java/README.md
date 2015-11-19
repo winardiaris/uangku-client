@@ -5,10 +5,12 @@
  Kamu dapat menjalankan Uangku-client (java) dari berbagai sistem operasi (Operating System) seperti Linux,Mac,Window.
  
  ###1. Unduh
+ 
  Uangku-client (java) dapat diunduh **[disini](https://github.com/winardiaris/uangku-client/raw/master/java/target/uangku-0.1.1-jar-with-dependencies.jar)**
  
  
 ###2. Menjalankan  Uangku-client (java)
+
 Setelah diuduh ubah berkas tersebut menjadi berkas yang dapat di eksekusi.
 ####Linux & Mac
 via terminal masuk kedalam folder unduhan. lalu, ketikan baris berikut:
