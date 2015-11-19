@@ -20,6 +20,9 @@ import org.apache.http.util.EntityUtils;
  * @author arst
  */
 public class getDataURL {
+    String getUrlBase(){
+       return "http://arwin.my.id/uangku/";
+    }
     String getData(String url) throws IOException{
          CloseableHttpClient httpclient = HttpClients.createDefault();
         try {           

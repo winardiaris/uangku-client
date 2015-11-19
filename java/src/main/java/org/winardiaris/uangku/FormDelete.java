@@ -103,7 +103,9 @@ public class FormDelete extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void BdeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BdeleteMouseClicked
-        String titles = this.getTitle();
+       getDataURL dataurl = new getDataURL();
+       String base_url = dataurl.getUrlBase();
+       String titles = this.getTitle();
        String[] data = titles.split("/");
        String uid = data[0];
        String did = data[1];
@@ -115,10 +117,7 @@ public class FormDelete extends javax.swing.JFrame {
             Logger.getLogger(FormDelete.class.getName()).log(Level.SEVERE, null, ex);
         }
        
-       String url = "http://localhost/uangku/?op=deletedata&did="+did+"&desc="+desc_;
-            
-        
-       getDataURL dataurl = new getDataURL();
+       String url = base_url+"?op=deletedata&did="+did+"&desc="+desc_;
         try {
             String datas = dataurl.getData(url);
             if("1".equals(datas)){

@@ -34,12 +34,13 @@ public class FormData extends javax.swing.JFrame {
     }
     public void setTableData(){
         getDataURL dataurl = new getDataURL();
-             JSONParser parser = new JSONParser();
-             DefaultTableModel model = (DefaultTableModel) Tbldata.getModel(); 
+        String base_url = dataurl.getUrlBase();
+        JSONParser parser = new JSONParser();
+        DefaultTableModel model = (DefaultTableModel) Tbldata.getModel(); 
             
              
             String UID = Luid.getText();
-            String url = "http://localhost/uangku/?op=viewdata&uid="+UID;
+            String url = base_url+"?op=viewdata&uid="+UID;
         try {
             model.setRowCount(0);
             String datajson = dataurl.getData(url);
@@ -83,7 +84,7 @@ public class FormData extends javax.swing.JFrame {
                     System.out.println("u_at:"+u_at);
                     System.out.println("----------------------------");
                 }
-                String saldo = "http://localhost/uangku/?op=saldodata&uid="+UID;
+                String saldo = base_url+"?op=saldodata&uid="+UID;
                 String datasaldo = dataurl.getData(saldo);
                 Object[] row1 = { "" ,"","" ,"" ,"" ,"" ,"" };
                 Object[] row = { "" ,"","" ,"Saldo" ,"" ,datasaldo ,"" };
@@ -466,12 +467,12 @@ public class FormData extends javax.swing.JFrame {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try {
             getDataURL dataurl = new getDataURL();
-            
+            String base_url = dataurl.getUrlBase();
             String uid = this.getTitle();
             
-            String url1 = "http://localhost/uangku/?op=get&from_data=uid&value_data="+uid+"&select_field=username&from_table=user";
+            String url1 = base_url+"?op=get&from_data=uid&value_data="+uid+"&select_field=username&from_table=user";
             String username = dataurl.getData(url1);
-            String url2 = "http://localhost/uangku/?op=get&from_data=uid&value_data="+uid+"&select_field=realname&from_table=user";
+            String url2 = base_url+"?op=get&from_data=uid&value_data="+uid+"&select_field=realname&from_table=user";
             String realname = dataurl.getData(url2);
             
             System.out.println("----------------------------------------");
@@ -518,6 +519,8 @@ public class FormData extends javax.swing.JFrame {
 
     private void BsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BsaveMouseClicked
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        getDataURL dataurl = new getDataURL();
+        String base_url = dataurl.getUrlBase();
         Date date = Tdate.getDate();
         
         String UID = Luid.getText();
@@ -553,10 +556,8 @@ public class FormData extends javax.swing.JFrame {
         System.out.println("token : "+token);
         System.out.println("desc : "+desc);
         
-        String url = "http://localhost/uangku/?op=newdata&uid="+UID+"&date="+converted_date+"&token="+tokens+"&type="+converted_type+"&value="+value+"&desc="+descs;
+        String url = base_url+"?op=newdata&uid="+UID+"&date="+converted_date+"&token="+tokens+"&type="+converted_type+"&value="+value+"&desc="+descs;
         System.out.println(url);
-
-            getDataURL dataurl = new getDataURL();
             String data;
         
         try {
@@ -602,6 +603,7 @@ public class FormData extends javax.swing.JFrame {
     private void BfindMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BfindMouseClicked
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         getDataURL dataurl = new getDataURL();
+        String base_url = dataurl.getUrlBase();
         JSONParser parser = new JSONParser();
         DefaultTableModel model = (DefaultTableModel) Tbldata.getModel(); 
         
@@ -616,13 +618,13 @@ public class FormData extends javax.swing.JFrame {
         String url = null;
        
         if("".equals(search)){
-         url = "http://localhost/uangku/?op=viewdata&uid="+UID+"&from="+cdatefrom+"&to="+cdateto;   
+         url = base_url+"?op=viewdata&uid="+UID+"&from="+cdatefrom+"&to="+cdateto;   
         }
         else if("".equals(cdatefrom) || "".equals(cdateto)){
-         url = "http://localhost/uangku/?op=viewdata&uid="+UID+"&search="+search;
+         url = base_url+"?op=viewdata&uid="+UID+"&search="+search;
         }
         else{
-          url = "http://localhost/uangku/?op=viewdata&uid="+UID+"&search="+search+"&from="+cdatefrom+"&to="+cdateto;  
+          url = base_url+"?op=viewdata&uid="+UID+"&search="+search+"&from="+cdatefrom+"&to="+cdateto;  
         }
         
         System.out.println(url);

@@ -130,15 +130,14 @@ public class FormSignIn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BloginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BloginMouseClicked
+       getDataURL dataurl = new getDataURL();
+       String base_url = dataurl.getUrlBase();
        String user = Tusername.getText();
        String password_text = Tpassword.getText();
-        String pass;
-        pass = DigestUtils.md5Hex(password_text);
-       String url = "http://localhost/uangku/?op=login&username="+user+"&password="+pass;
-       String urluid = "http://localhost/uangku/?op=get&from_data=username&value_data="+user+"&select_field=uid&from_table=user";
-            
-        
-       getDataURL dataurl = new getDataURL();
+       String pass;
+       pass = DigestUtils.md5Hex(password_text);
+       String url = base_url+"?op=login&username="+user+"&password="+pass;
+       String urluid = base_url+"?op=get&from_data=username&value_data="+user+"&select_field=uid&from_table=user";
         try {
             String data = dataurl.getData(url);
             String uid = dataurl.getData(urluid);

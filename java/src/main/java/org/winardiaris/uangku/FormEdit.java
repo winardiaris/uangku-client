@@ -177,6 +177,8 @@ public class FormEdit extends javax.swing.JFrame {
     private void BsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BsaveMouseClicked
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = Tdate.getDate();
+        getDataURL dataurl = new getDataURL();
+        String base_url = dataurl.getUrlBase();
         
         String UID = Luid.getText();
         String did  = Ldid.getText();
@@ -212,11 +214,9 @@ public class FormEdit extends javax.swing.JFrame {
         System.out.println("token : "+token);
         System.out.println("desc : "+desc);
         
-        String url = "http://localhost/uangku/?op=updatedata&uid="+UID+"&did="+did+"&date="+converted_date+"&token="+tokens+"&type="+converted_type+"&value="+value+"&desc="+descs;
+        String url = base_url+"?op=updatedata&uid="+UID+"&did="+did+"&date="+converted_date+"&token="+tokens+"&type="+converted_type+"&value="+value+"&desc="+descs;
         System.out.println(url);
-
-            getDataURL dataurl = new getDataURL();
-            String data;
+        String data;
         
         try {
             data = dataurl.getData(url);
@@ -236,14 +236,14 @@ public class FormEdit extends javax.swing.JFrame {
     }//GEN-LAST:event_BsaveMouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-
         getDataURL dataurl = new getDataURL();
+        String base_url = dataurl.getUrlBase();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         JSONParser parser = new JSONParser();
         String[] titles   = this.getTitle().split("/");
         String uid = titles[0];
         String did = titles[1];
-        String url = "http://localhost/uangku/?op=viewdata&uid="+uid+"&did="+did;
+        String url = base_url+"?op=viewdata&uid="+uid+"&did="+did;
         
         String datajson;
         try {

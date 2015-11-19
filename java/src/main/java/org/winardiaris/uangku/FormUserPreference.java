@@ -182,6 +182,8 @@ public class FormUserPreference extends javax.swing.JFrame {
     }//GEN-LAST:event_BcancelMouseClicked
 
     private void BsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BsaveMouseClicked
+       getDataURL dataurl = new getDataURL();
+       String base_url = dataurl.getUrlBase();
        String UID = Luid.getText();
        String username = Tusername.getText();
        String realname = Trealname.getText();
@@ -197,10 +199,9 @@ public class FormUserPreference extends javax.swing.JFrame {
             Logger.getLogger(FormData.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        String url ="http://localhost/uangku/?op=updateuser&uid="+UID+"&username="+username+"&password="+password+"&realname="+realnames;
+        String url =base_url+"?op=updateuser&uid="+UID+"&username="+username+"&password="+password+"&realname="+realnames;
         System.out.println(url);
-        getDataURL dataurl = new getDataURL();
-            String data;
+        String data;
         
         try {
             data = dataurl.getData(url);
@@ -222,20 +223,20 @@ public class FormUserPreference extends javax.swing.JFrame {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try {
             getDataURL dataurl = new getDataURL();
-            
+            String base_url = dataurl.getUrlBase();
             String UID = this.getTitle();
             
             
-            String url_username = "http://localhost/uangku/?op=get&from_data=uid&value_data="+UID+"&select_field=username&from_table=user";
+            String url_username = base_url+"?op=get&from_data=uid&value_data="+UID+"&select_field=username&from_table=user";
             String data_username = dataurl.getData(url_username);
             
-            String url_realname = "http://localhost/uangku/?op=get&from_data=uid&value_data="+UID+"&select_field=realname&from_table=user";
+            String url_realname = base_url+"?op=get&from_data=uid&value_data="+UID+"&select_field=realname&from_table=user";
             String data_realname = dataurl.getData(url_realname);
             
-            String url_lastlogin = "http://localhost/uangku/?op=get&from_data=uid&value_data="+UID+"&select_field=lastlogin&from_table=user";
+            String url_lastlogin = base_url+"?op=get&from_data=uid&value_data="+UID+"&select_field=lastlogin&from_table=user";
             String data_lastlogin = dataurl.getData(url_lastlogin);
             
-            String url_lastupdate = "http://localhost/uangku/?op=get&from_data=uid&value_data="+UID+"&select_field=u_at&from_table=user";
+            String url_lastupdate = base_url+"?op=get&from_data=uid&value_data="+UID+"&select_field=u_at&from_table=user";
             String data_lastupdate = dataurl.getData(url_lastupdate);
             
             System.out.println("GET DATA ----------------------------------------");
