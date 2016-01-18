@@ -13,4 +13,6 @@
     <string name="newdata">Data Baru</string>
     <string name="listdata">Daftar Data Keuangan</string>
     <string name="action_settings">Pengaturan</string>
+    <string name="save">Simpan</string>
+    <string name="update">Perbaharui</string>
 </resources>

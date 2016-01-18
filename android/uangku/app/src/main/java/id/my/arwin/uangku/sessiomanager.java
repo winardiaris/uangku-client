@@ -39,10 +39,10 @@ public class sessiomanager  {
     public static final String TAG_UID = "uid" ;
     public static final String isloginkey = "islogin" ;
 
-    private static final String TAG_REALNAME = "realname";
-    private static final String TAG_LASTLOGIN = "lastlogin";
-    private static final String TAG_C_AT = "c_at";
-    private static final String TAG_U_AT = "u_at";
+    public static final String TAG_REALNAME = "realname";
+    public static final String TAG_LASTLOGIN = "lastlogin";
+    public static final String TAG_C_AT = "c_at";
+    public static final String TAG_U_AT = "u_at";
 
     public sessiomanager(Context context){
         this._context = context;

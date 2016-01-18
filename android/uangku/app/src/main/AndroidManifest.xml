@@ -35,6 +35,9 @@
         <activity
             android:name=".tambahdata_activity"
             android:label="tambahdata_activity">
+        </activity><activity
+            android:name=".pengaturan_activity"
+            android:label="pengaturan_activity">
         </activity>
     </application>
 

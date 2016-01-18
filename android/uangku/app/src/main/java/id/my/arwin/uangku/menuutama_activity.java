@@ -50,6 +50,25 @@ public class menuutama_activity extends Activity {
                 startActivity(i);
             }
         });
+
+        Button bsetting = (Button)findViewById(R.id.bsetting);
+        bsetting.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void  onClick(View v){
+                Intent i = new Intent(menuutama_activity.this,pengaturan_activity.class);
+                startActivity(i);
+            }
+        });
+    }
+
+    public  void onBackPressed(){
+        super.onBackPressed();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+        System.exit(0);
     }
 
 }
