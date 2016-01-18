@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">uangku</string>
+    <string name="app_version">android-alfa-1</string>
+    <string name="version">Versi</string>
+    <string name="username">Nama Pengguna</string>
+    <string name="realname">Nama Lengkap</string>
+    <string name="password">Kata Sandi</string>
+    <string name="signup">Daftar</string>
+    <string name="user">Pengguna</string>
+    <string name="login">Masuk</string>
+    <string name="logout">Keluar</string>
+    <string name="setting">Pengaturan</string>
+    <string name="newdata">Data Baru</string>
+    <string name="listdata">Daftar Data Keuangan</string>
+    <string name="action_settings">Pengaturan</string>
+</resources>
