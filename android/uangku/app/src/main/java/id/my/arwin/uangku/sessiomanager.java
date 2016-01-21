@@ -43,6 +43,7 @@ public class sessiomanager  {
     public static final String TAG_LASTLOGIN = "lastlogin";
     public static final String TAG_C_AT = "c_at";
     public static final String TAG_U_AT = "u_at";
+    public static final String TAG_DATA = "data";
 
     public sessiomanager(Context context){
         this._context = context;
@@ -59,14 +60,15 @@ public class sessiomanager  {
                 String jsonStr = CustomHTTPClient.executeHttpPost("http://192.168.1.22/uangku1.0.1/", post_parameter);
                 if (jsonStr != null) {
                     try {
-                        JSONArray jsonarray = new JSONArray(jsonStr);
-                        int b = jsonarray.length();
+//                        JSONArray jsonarray = new JSONArray(jsonStr);
+                        JSONObject obj = new JSONObject(jsonStr);
+                        int b = obj.length();
                         Log.d("banyak data"," ada "+b);
 
-                        String datajason = jsonarray.getString(0);
+                        JSONArray data = obj.getJSONArray(TAG_DATA);
 //                        Log.d("data json",datajason);
 
-                        JSONObject jsonObj = new JSONObject(datajason);
+                        JSONObject jsonObj = data.getJSONObject(0);
 
                         String realname = jsonObj.getString(TAG_REALNAME);
                         String lastlogin = jsonObj.getString(TAG_LASTLOGIN);
