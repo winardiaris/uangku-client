@@ -51,6 +51,15 @@ public class menuutama_activity extends Activity {
             }
         });
 
+        Button blistdata = (Button) findViewById(R.id.blistdata);
+        blistdata.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(menuutama_activity.this,data_activity.class);
+                startActivity(i);
+            }
+        });
+
         Button bsetting = (Button)findViewById(R.id.bsetting);
         bsetting.setOnClickListener(new View.OnClickListener(){
             @Override
