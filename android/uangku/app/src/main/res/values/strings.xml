@@ -15,4 +15,6 @@
     <string name="action_settings">Pengaturan</string>
     <string name="save">Simpan</string>
     <string name="update">Perbaharui</string>
+    <string name="find">Cari</string>
+    <string name="last_updated">Terakhir diubah:</string>
 </resources>

@@ -42,7 +42,7 @@ public class pengaturan_activity extends Activity {
          final EditText trealname = (EditText) findViewById(R.id.trealname);
          final EditText tpassword = (EditText) findViewById(R.id.tpassword);
          TextView llastlogin = (TextView) findViewById(R.id.llastlogin);
-        TextView llastupdat = (TextView) findViewById(R.id.llastupdate);
+         TextView llastupdat = (TextView) findViewById(R.id.llastupdate);
 
 
         this.set();

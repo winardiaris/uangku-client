@@ -3,14 +3,38 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Tambah Data"
-        android:id="@+id/ltambahdata"
+        android:text="Lihat Data"
+        android:id="@+id/llihatdata"
         android:gravity="center_vertical|center_horizontal" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data ID:"
+            android:id="@+id/textView6"
+            android:layout_gravity="bottom|left"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tdid"
+            android:text="22"
+            android:layout_gravity="bottom|right"
+            android:layout_marginLeft="20dp"
+            android:textColor="#0692ce" />
+
+    </LinearLayout>
+
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -79,14 +103,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:ems="10"
+        android:ems="20"
         android:id="@+id/tdesc" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/last_updated"
+            android:id="@+id/textView7" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="2016-01-01 00:00:00"
+            android:id="@+id/t_u_at"
+            android:layout_marginLeft="20dp" />
+    </LinearLayout>
+
+
+
     <Button
-        android:layout_width="362dp"
+        android:layout_width="363dp"
         android:layout_height="wrap_content"
-        android:text="@string/save"
-        android:id="@+id/bsave"
-        android:layout_gravity="center_horizontal" />
+        android:text="@string/update"
+        android:id="@+id/bupdate"
+        android:layout_gravity="bottom|right" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="12"
+        android:id="@+id/tuid"
+        android:layout_gravity="right"
+        android:textColor="#ffffff" />
 
 </LinearLayout>
