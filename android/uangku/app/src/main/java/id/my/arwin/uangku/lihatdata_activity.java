@@ -25,7 +25,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import id.my.arwin.uangku.CustomHTTPClient;
 import id.my.arwin.uangku.Main.AppSetting;
 
 /**
@@ -34,7 +33,6 @@ import id.my.arwin.uangku.Main.AppSetting;
 public class lihatdata_activity extends Activity {
     sessiomanager session;
     private static final String opl = "viewdata";
-    private static final String TAG_STATUS = "status";
     private static final String url = AppSetting.SERVER;
     private static final String TAG_DID = "did";
     private static final String TAG_UID = "uid";
@@ -71,7 +69,10 @@ public class lihatdata_activity extends Activity {
         String uid = user.get(sessiomanager.TAG_UID);// get uid
         String op = opl.toString();
 
+        //execvute
+        new getThisData(lihatdata_activity.this).execute(op, uid, did);
 
+        //button
         Button bupdate = (Button)findViewById(R.id.bupdate);
         bupdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +118,21 @@ public class lihatdata_activity extends Activity {
             }
         });
 
-        new getThisData().execute(op, uid, did);
+        Button bdelete = (Button) findViewById(R.id.bdelete);
+        bdelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(lihatdata_activity.this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("info")
+                        .setMessage("Mau dihapus?")
+                        .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //  hapus
+                            }
+                        }).setNegativeButton("Tidak", null).show();
+            }
+        });
+
 
     }
 
@@ -229,12 +244,13 @@ public class lihatdata_activity extends Activity {
             String result = null;
             ArrayList<NameValuePair> post_parameter = new ArrayList<>();
             post_parameter.add(new BasicNameValuePair("op", params[0]));
-            post_parameter.add(new BasicNameValuePair("uid", params[1]));
-            post_parameter.add(new BasicNameValuePair("date", params[2]));
-            post_parameter.add(new BasicNameValuePair("token", params[3]));
-            post_parameter.add(new BasicNameValuePair("type", params[4]));
-            post_parameter.add(new BasicNameValuePair("value", params[5]));
-            post_parameter.add(new BasicNameValuePair("desc", params[6]));
+            post_parameter.add(new BasicNameValuePair("did", params[1]));
+            post_parameter.add(new BasicNameValuePair("uid", params[2]));
+            post_parameter.add(new BasicNameValuePair("date", params[3]));
+            post_parameter.add(new BasicNameValuePair("token", params[4]));
+            post_parameter.add(new BasicNameValuePair("type", params[5]));
+            post_parameter.add(new BasicNameValuePair("value", params[6]));
+            post_parameter.add(new BasicNameValuePair("desc", params[7]));
             try{
                 String jsonStr = CustomHTTPClient.executeHttpPost(url, post_parameter);
                 if (jsonStr != null) {

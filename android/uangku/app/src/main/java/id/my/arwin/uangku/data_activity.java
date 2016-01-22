@@ -70,7 +70,7 @@ public class data_activity extends ListActivity {
             }
         });
 
-        ListView listView = (ListView)findViewById(R.id.list);
+        ListView listView = getListView();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
