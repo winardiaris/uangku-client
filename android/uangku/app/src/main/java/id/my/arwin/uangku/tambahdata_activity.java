@@ -35,7 +35,7 @@ public class tambahdata_activity extends FragmentActivity {
     String type = "in";
     private static final String opl = "newdata";
     private static final String TAG_STATUS = "status";
-    private static final String TAG_DATA = "status";
+    private static final String TAG_DATA = "data";
     private static final String url = AppSetting.SERVER;
     sessiomanager session;
 
@@ -167,6 +167,7 @@ public class tambahdata_activity extends FragmentActivity {
                 String jsonStr = CustomHTTPClient.executeHttpPost(url, post_parameter);
                 if (jsonStr != null) {
                     try {
+
                         Log.d("data json",jsonStr);
                         JSONObject obj = new JSONObject(jsonStr);
                         JSONObject data = obj.getJSONObject(TAG_DATA);

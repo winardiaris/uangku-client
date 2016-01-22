@@ -71,7 +71,7 @@ public class pengaturan_activity extends Activity {
                 } else {
                     //lanjut simpan
 
-                    Log.d("Button simpan diklik", "------------------------------");
+                    Log.d("Button simpan pengaturan diklik", "------------------------------");
                     Log.d("uid", uid);
                     Log.d("username", username);
                     Log.d("realname", realname);
@@ -155,14 +155,15 @@ public class pengaturan_activity extends Activity {
         protected void onPostExecute(String s) {
             dialog.dismiss();
             super.onPostExecute(s);
+            Log.d("onPostExecute",s);
             //jika berhasil menyimpan
-            if(s=="success"){
+            if(s.equals("success")){
                 Toast.makeText(pengaturan_activity.this, "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(pengaturan_activity.this,menuutama_activity.class);//nanti ganti ke data
                 startActivity(i);
                 finish();
             }
-            else if(s=="error"){
+            else if(s.equals("error")){
                 Toast.makeText(pengaturan_activity.this, "??", Toast.LENGTH_SHORT).show();
             }
             else{
