@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import id.my.arwin.uangku.Main.AppSetting;
 import id.my.arwin.uangku.Main.MainActivity;
 
 /**
@@ -29,6 +30,8 @@ import id.my.arwin.uangku.Main.MainActivity;
 public class signup_activity extends Activity {
     private static final String opl = "login";
     private static final String TAG_STATUS = "status";
+    private static final String TAG_DATA = "data";
+    private static final String url = AppSetting.SERVER;
     sessiomanager session;
     Context context;
 
@@ -92,11 +95,16 @@ public class signup_activity extends Activity {
             post_parameter.add(new BasicNameValuePair("password", params[2]));
 
             try{
-                String jsonStr = CustomHTTPClient.executeHttpPost("http://192.168.1.22/uangku1.0.1/", post_parameter);
+                String jsonStr = CustomHTTPClient.executeHttpPost(url, post_parameter);
                 if (jsonStr != null) {
                     try {
-                        JSONObject jsonObj = new JSONObject(jsonStr);
-                        String status = jsonObj.getString(TAG_STATUS);
+
+                        Log.d("data json",jsonStr);
+                        JSONObject obj = new JSONObject(jsonStr);
+                        JSONObject data = obj.getJSONObject(TAG_DATA);
+
+                        String status = data.getString(TAG_STATUS);
+                        Log.d("status",status);
 
                         //session manager
                         String uid = session.getuid(params[1]);
@@ -134,11 +142,15 @@ public class signup_activity extends Activity {
             Log.d("String s onpostexecute",s);
 //            finish();
             //jika masuk
-            if(s=="1"){
+            if(s.equals("success")){
                 Toast.makeText(signup_activity.this,"Berhasil masuk",Toast.LENGTH_SHORT).show();
                 clear();
                 Intent i = new Intent(signup_activity.this,MainActivity.class);
                 startActivity(i);
+            }
+            else if(s.equals("no_user")){
+                Toast.makeText(signup_activity.this,"user tidak terdaftar",Toast.LENGTH_SHORT).show();
+                clear();
             }
             else{
                 Toast.makeText(signup_activity.this,"Gagal masuk",Toast.LENGTH_SHORT).show();

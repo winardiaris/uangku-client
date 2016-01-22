@@ -21,6 +21,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import id.my.arwin.uangku.Main.AppSetting;
+
 /**
  * Created by winardiaris on 1/18/16.
  */
@@ -28,6 +30,8 @@ public class pengaturan_activity extends Activity {
     sessiomanager session;
     private static final String opl = "updateuser";
     private static final String TAG_STATUS = "status";
+    private static final String TAG_DATA = "data";
+    private static final String url = AppSetting.SERVER;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,11 +128,15 @@ public class pengaturan_activity extends Activity {
             post_parameter.add(new BasicNameValuePair("password", params[4]));
             
             try{
-                String jsonStr = CustomHTTPClient.executeHttpPost("http://192.168.1.22/uangku1.0.1/", post_parameter);
+                String jsonStr = CustomHTTPClient.executeHttpPost(url, post_parameter);
                 if (jsonStr != null) {
                     try {
-                        JSONObject jsonObj = new JSONObject(jsonStr);
-                        String status = jsonObj.getString(TAG_STATUS);
+                        Log.d("data json",jsonStr);
+                        JSONObject obj = new JSONObject(jsonStr);
+                        JSONObject data = obj.getJSONObject(TAG_DATA);
+
+                        String status = data.getString(TAG_STATUS);
+                        Log.d("status",status);
                         result = status;
                     }catch (JSONException e) {
                         e.printStackTrace();
@@ -148,13 +156,13 @@ public class pengaturan_activity extends Activity {
             dialog.dismiss();
             super.onPostExecute(s);
             //jika berhasil menyimpan
-            if(s=="1"){
+            if(s=="success"){
                 Toast.makeText(pengaturan_activity.this, "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(pengaturan_activity.this,menuutama_activity.class);//nanti ganti ke data
                 startActivity(i);
                 finish();
             }
-            else if(s=="2"){
+            else if(s=="error"){
                 Toast.makeText(pengaturan_activity.this, "??", Toast.LENGTH_SHORT).show();
             }
             else{

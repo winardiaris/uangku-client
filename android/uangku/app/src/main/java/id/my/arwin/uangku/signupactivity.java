@@ -18,12 +18,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import id.my.arwin.uangku.Main.AppSetting;
+
 /**
  * Created by winardiaris on 1/11/16.
  */
 public class signupactivity extends Activity {
     private static final String opl = "newuser";
     private static final String TAG_STATUS = "status";
+    private static final String TAG_DATA = "data";
+    private static final String url = AppSetting.SERVER;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +48,10 @@ public class signupactivity extends Activity {
                 String password = new md5sum().md5(password_);
 
                 new daftarpengguna(signupactivity.this).execute(op, username,realname, password);
-                Log.d("Event:","Button daftar di tekan");
+                Log.d("Event:", "Button daftar di tekan");
+                Log.d("username", username);
+                Log.d("realname", realname);
+                Log.d("password",password);
             }
         });
     }
@@ -71,12 +78,17 @@ public class signupactivity extends Activity {
             post_parameter.add(new BasicNameValuePair("realname", params[2]));
             post_parameter.add(new BasicNameValuePair("password", params[3]));
             try{
-                String jsonStr = CustomHTTPClient.executeHttpPost("http://192.168.1.22/uangku1.0.1/", post_parameter);
+                String jsonStr = CustomHTTPClient.executeHttpPost(url, post_parameter);
                 if (jsonStr != null) {
                     try {
-                        JSONObject jsonObj = new JSONObject(jsonStr);
-                        String status = jsonObj.getString(TAG_STATUS);
+                        Log.d("data json",jsonStr);
+                        JSONObject obj = new JSONObject(jsonStr);
+                        JSONObject data = obj.getJSONObject(TAG_DATA);
+
+                        String status = data.getString(TAG_STATUS);
+                        Log.d("status",status);
                         result = status;
+
                     }catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -96,11 +108,12 @@ public class signupactivity extends Activity {
             super.onPostExecute(s);
 //            finish();
             //jika berhasil mendaftar
-            if(s=="1"){
+            Log.d("hasil onPostExecute",s);
+            if(s.equals("success")){
                 Toast.makeText(signupactivity.this, "Berhasil mendaftar", Toast.LENGTH_SHORT).show();
                 finish();
             }
-            else if(s=="2"){
+            else if(s.equals("duplicate")){
                 Toast.makeText(signupactivity.this, "Username telah digunakan", Toast.LENGTH_SHORT).show();
             }
             else{

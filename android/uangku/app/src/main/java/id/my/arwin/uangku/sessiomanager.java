@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import id.my.arwin.uangku.Main.AppSetting;
+
 /**
  * Created by winardiaris on 1/11/16.
  */
@@ -24,6 +26,7 @@ public class sessiomanager  {
 
     // Editor reference for Shared preferences
     SharedPreferences.Editor editor;
+    private static final String url = AppSetting.SERVER;
 
     // Context
     Context _context;
@@ -44,6 +47,7 @@ public class sessiomanager  {
     public static final String TAG_C_AT = "c_at";
     public static final String TAG_U_AT = "u_at";
     public static final String TAG_DATA = "data";
+    public static final String TAG_GETDATA = "getdata";
 
     public sessiomanager(Context context){
         this._context = context;
@@ -57,16 +61,12 @@ public class sessiomanager  {
             post_parameter.add(new BasicNameValuePair("op", "viewuser"));
             post_parameter.add(new BasicNameValuePair("username", username));
             try{
-                String jsonStr = CustomHTTPClient.executeHttpPost("http://192.168.1.22/uangku1.0.1/", post_parameter);
+                String jsonStr = CustomHTTPClient.executeHttpPost(url, post_parameter);
                 if (jsonStr != null) {
                     try {
 //                        JSONArray jsonarray = new JSONArray(jsonStr);
                         JSONObject obj = new JSONObject(jsonStr);
-                        int b = obj.length();
-                        Log.d("banyak data"," ada "+b);
-
                         JSONArray data = obj.getJSONArray(TAG_DATA);
-//                        Log.d("data json",datajason);
 
                         JSONObject jsonObj = data.getJSONObject(0);
 
@@ -172,13 +172,22 @@ public class sessiomanager  {
     }
 
 
-    public String getuid(String username){
+    public String getuid(String username) throws JSONException {
         ServiceHandler sh = new ServiceHandler();
         // Making a request to url and getting response
-        sh.makeServiceCall("http://192.168.1.22/uangku1.0.1/?op=get&from_data=username&value_data=" + username + "&select_field=uid&from_table=user", ServiceHandler.GET);
-        String uid_ = sh.makeServiceCall("http://192.168.1.22/uangku1.0.1/?op=get&from_data=username&value_data="+username+"&select_field=uid&from_table=user", ServiceHandler.GET);
-        Log.d("getuid","-----------------------------");
-        Log.d("uid :", uid_);
+//        sh.makeServiceCall(url+"?op=get&from_data=username&value_data=" + username + "&select_field=uid&from_table=user", ServiceHandler.GET);
+        String jsonStr = sh.makeServiceCall(url+"?op=get&from_data=username&value_data="+username+"&select_field=uid&from_table=user", ServiceHandler.GET);
+        Log.d("getuid", "-----------------------------");
+
+        Log.d("json :", jsonStr);
+
+        JSONObject obj = new JSONObject(jsonStr);
+        JSONArray data = obj.getJSONArray(TAG_DATA);
+
+        JSONObject object = data.getJSONObject(0);
+       String uid_ = object.getString(TAG_GETDATA);
+        Log.d("uid dari get data",uid_);
+
         return uid_;
     }
 

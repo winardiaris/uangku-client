@@ -20,7 +20,9 @@ import id.my.arwin.uangku.signup_activity;
 
 public class MainActivity extends Activity {
     private ProgressDialog pDialog;
-    private static String url_test = "http://192.168.1.22/uangku1.0.1/?op=check";
+    private static final String url = AppSetting.SERVER;
+    private static String url_test = url+"?op=check";
+    private static final String TAG_DATA = "data";
     private static final String TAG_STATUS = "status";
 //    ArrayList<HashMap<String, String>> status_;
     private String status_;
@@ -67,9 +69,14 @@ public class MainActivity extends Activity {
             Log.d("Response: ", "> " + jsonStr);
             if (jsonStr != null) {
                 try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-                    String status = jsonObj.getString(TAG_STATUS);
-                    status_ = status;
+
+                    Log.d("data json",jsonStr);
+                    JSONObject obj = new JSONObject(jsonStr);
+                    JSONObject data = obj.getJSONObject(TAG_DATA);
+
+                    status_ = data.getString(TAG_STATUS);
+                    Log.d("status",status_);
+
                 }catch (JSONException e) {
                     e.printStackTrace();
                 }
