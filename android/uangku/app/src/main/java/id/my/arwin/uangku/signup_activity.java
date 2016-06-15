@@ -28,12 +28,12 @@ import id.my.arwin.uangku.Main.MainActivity;
  * Created by winardiaris on 1/8/16.
  */
 public class signup_activity extends Activity {
-    private static final String opl = "login";
     private static final String TAG_STATUS = "status";
+    private static final String TAG_TOKEN = "token";
     private static final String TAG_DATA = "data";
     private static final String url = AppSetting.SERVER;
     sessiomanager session;
-    Context context;
+//    Context context;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +48,11 @@ public class signup_activity extends Activity {
         bmasuk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String op = opl.toString();
                 String username = tusername.getText().toString();
                 String password_ = tpassword.getText().toString();
                 String password = new md5sum().md5(password_);
 
-                new masuksistem(signup_activity.this).execute(op, username, password);
+                new masuksistem(signup_activity.this).execute(username, password);
                 clear();
                 Log.d("Event:", "Button masuk diklik");
                 Log.d("md5 :", password);
@@ -90,30 +89,32 @@ public class signup_activity extends Activity {
         protected String doInBackground(String... params) {
             String result = null;
             ArrayList<NameValuePair> post_parameter = new ArrayList<>();
-            post_parameter.add(new BasicNameValuePair("op", params[0]));
-            post_parameter.add(new BasicNameValuePair("username", params[1]));
-            post_parameter.add(new BasicNameValuePair("password", params[2]));
+            post_parameter.add(new BasicNameValuePair("username", params[0]));
+            post_parameter.add(new BasicNameValuePair("password", params[1]));
 
             try{
-                String jsonStr = CustomHTTPClient.executeHttpPost(url, post_parameter);
+                String jsonStr = CustomHTTPClient.executeHttpPost(url+"login", post_parameter);
                 if (jsonStr != null) {
                     try {
 
+                        Log.d("url",url+"login");
                         Log.d("data json",jsonStr);
                         JSONObject obj = new JSONObject(jsonStr);
-                        JSONObject data = obj.getJSONObject(TAG_DATA);
 
-                        String status = data.getString(TAG_STATUS);
-                        Log.d("status",status);
+
+                        String status = obj.getString(TAG_STATUS);
+                        String token = obj.getString(TAG_TOKEN);
+                        Log.d("status:",status);
+                        Log.d("token:",token);
 
                         //session manager
-                        String uid = session.getuid(params[1]);
-                        session.setsessionlogin(params[1],params[2],uid);
+//                        String uid = session.getusers_id(params[1]);
+                        session.setsessionlogin(token);
 
                         // get user data from session
                         HashMap<String, String> user = session.getUserDetails();
                         String username_ = user.get(sessiomanager.TAG_USERNAME);// get name
-                        String uid_ = user.get(sessiomanager.TAG_UID);// get uid
+                        String uid_ = user.get(sessiomanager.TAG_USERSID);// get uid
                         Boolean islogin = session.isUserLoggedIn();
 
 
@@ -148,7 +149,7 @@ public class signup_activity extends Activity {
                 Intent i = new Intent(signup_activity.this,MainActivity.class);
                 startActivity(i);
             }
-            else if(s.equals("no_user")){
+            else if(s.equals("error")){
                 Toast.makeText(signup_activity.this,"user tidak terdaftar",Toast.LENGTH_SHORT).show();
                 clear();
             }

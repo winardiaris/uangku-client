@@ -24,7 +24,6 @@ import id.my.arwin.uangku.Main.AppSetting;
  * Created by winardiaris on 1/11/16.
  */
 public class signupactivity extends Activity {
-    private static final String opl = "newuser";
     private static final String TAG_STATUS = "status";
     private static final String TAG_DATA = "data";
     private static final String url = AppSetting.SERVER;
@@ -33,7 +32,8 @@ public class signupactivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signupactivity);
         final EditText tusername = (EditText) findViewById(R.id.Tusername);
-        final EditText trealname = (EditText) findViewById(R.id.Trealname);
+        final EditText tname = (EditText) findViewById(R.id.Trealname);
+        final EditText temail = (EditText) findViewById(R.id.Temail);
         final EditText tpassword = (EditText) findViewById(R.id.Tpassword);
 
         Button bdaftar = (Button) findViewById(R.id.Bdaftar);
@@ -41,16 +41,18 @@ public class signupactivity extends Activity {
         bdaftar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String op = opl.toString();
+
                 String username= tusername.getText().toString();
-                String realname= trealname.getText().toString();
+                String name= tname.getText().toString();
+                String email= temail.getText().toString();
                 String password_ = tpassword.getText().toString();
                 String password = new md5sum().md5(password_);
 
-                new daftarpengguna(signupactivity.this).execute(op, username,realname, password);
+                new daftarpengguna(signupactivity.this).execute(username,name,email, password);
                 Log.d("Event:", "Button daftar di tekan");
                 Log.d("username", username);
-                Log.d("realname", realname);
+                Log.d("name", name);
+                Log.d("email", email);
                 Log.d("password",password);
             }
         });
@@ -73,19 +75,20 @@ public class signupactivity extends Activity {
         protected String doInBackground(String... params) {
             String result = null;
             ArrayList<NameValuePair> post_parameter = new ArrayList<>();
-            post_parameter.add(new BasicNameValuePair("op", params[0]));
-            post_parameter.add(new BasicNameValuePair("username", params[1]));
-            post_parameter.add(new BasicNameValuePair("realname", params[2]));
+            post_parameter.add(new BasicNameValuePair("username", params[0]));
+            post_parameter.add(new BasicNameValuePair("name", params[1]));
+            post_parameter.add(new BasicNameValuePair("email", params[2]));
             post_parameter.add(new BasicNameValuePair("password", params[3]));
             try{
-                String jsonStr = CustomHTTPClient.executeHttpPost(url, post_parameter);
+                String jsonStr = CustomHTTPClient.executeHttpPost(url+"users", post_parameter);
                 if (jsonStr != null) {
                     try {
+                        Log.d("url",url+"users");
                         Log.d("data json",jsonStr);
                         JSONObject obj = new JSONObject(jsonStr);
-                        JSONObject data = obj.getJSONObject(TAG_DATA);
+//                        JSONObject data = obj.getJSONObject("data");
 
-                        String status = data.getString(TAG_STATUS);
+                        String status = obj.getString(TAG_STATUS);
                         Log.d("status",status);
                         result = status;
 

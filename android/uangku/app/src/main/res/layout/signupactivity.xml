@@ -25,6 +25,11 @@
         android:layout_height="wrap_content"
         android:hint="@string/realname" />
     <EditText
+        android:id="@+id/Temail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email" />
+    <EditText
         android:id="@+id/Tpassword"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

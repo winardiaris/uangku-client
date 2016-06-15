@@ -57,7 +57,7 @@ public class pengaturan_activity extends Activity {
                 String password = new md5sum().md5(password_);
 
                 HashMap<String, String> user = session.getUserDetails();
-                String uid = user.get(sessiomanager.TAG_UID);// get uid
+                String uid = user.get(sessiomanager.TAG_USERSID);// get uid
 
                 if (username.equals("")) {
                     Toast.makeText(pengaturan_activity.this, "Isi Nama pengguna terlebih dahulu", Toast.LENGTH_SHORT).show();
@@ -88,8 +88,7 @@ public class pengaturan_activity extends Activity {
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
         String username = user.get(sessiomanager.TAG_USERNAME);// get username
-        String realname = user.get(sessiomanager.TAG_REALNAME);// get realname
-        String lastlogin = user.get(sessiomanager.TAG_LASTLOGIN);
+        String realname = user.get(sessiomanager.TAG_NAME);// get realname
         String lastupdate = user.get(sessiomanager.TAG_U_AT);
 
         EditText tusename = (EditText) findViewById(R.id.tusername);
@@ -99,7 +98,7 @@ public class pengaturan_activity extends Activity {
         
         tusename.setText(username);
         trealname.setText(realname);
-        llastlogin.setText("Terakhir masuk: "+lastlogin);
+//        llastlogin.setText("Terakhir masuk: "+lastlogin);
         llastupdat.setText("Terakhir diubah: "+lastupdate);
 
     }

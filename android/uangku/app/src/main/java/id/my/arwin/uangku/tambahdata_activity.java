@@ -87,7 +87,7 @@ public class tambahdata_activity extends FragmentActivity {
                 final String ket = ket_.getText().toString();
 
                 HashMap<String, String> user = session.getUserDetails();
-                String uid = user.get(sessiomanager.TAG_UID);// get uid
+                String uid = user.get(sessiomanager.TAG_USERSID);// get uid
 
                 if(tanggal.equals("")){
                     Toast.makeText(tambahdata_activity.this, "Isi tanggal terlebih dahulu", Toast.LENGTH_SHORT).show();

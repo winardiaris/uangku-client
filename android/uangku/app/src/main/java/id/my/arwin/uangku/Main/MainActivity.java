@@ -21,7 +21,7 @@ import id.my.arwin.uangku.signup_activity;
 public class MainActivity extends Activity {
     private ProgressDialog pDialog;
     private static final String url = AppSetting.SERVER;
-    private static String url_test = url+"?op=check";
+    private static String url_test = url+"check";
     private static final String TAG_DATA = "data";
     private static final String TAG_STATUS = "status";
 //    ArrayList<HashMap<String, String>> status_;
@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
         String username_ = user.get(sessiomanager.TAG_USERNAME);// get name
-        String uid_ = user.get(sessiomanager.TAG_UID);// get uid
+        String uid_ = user.get(sessiomanager.TAG_USERSID);// get uid
         Boolean islogin = session.isUserLoggedIn();
 
         if(islogin==true){
@@ -66,13 +66,13 @@ public class MainActivity extends Activity {
             sh.makeServiceCall(url_test, ServiceHandler.GET);
             String jsonStr = sh.makeServiceCall(url_test, ServiceHandler.GET);
 
-            Log.d("Response: ", "> " + jsonStr);
+            Log.d("Response doinbackground Mainactivity: ",jsonStr);
             if (jsonStr != null) {
                 try {
 
                     Log.d("data json",jsonStr);
                     JSONObject obj = new JSONObject(jsonStr);
-                    JSONObject data = obj.getJSONObject(TAG_DATA);
+                    JSONObject data = obj.getJSONObject("");
 
                     status_ = data.getString(TAG_STATUS);
                     Log.d("status",status_);

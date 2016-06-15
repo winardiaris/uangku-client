@@ -35,7 +35,7 @@ public class lihatdata_activity extends Activity {
     private static final String opl = "viewdata";
     private static final String url = AppSetting.SERVER;
     private static final String TAG_DID = "did";
-    private static final String TAG_UID = "uid";
+    private static final String TAG_USERSID = "uid";
     private static final String TAG_DATE = "date";
     private static final String TAG_TOKEN = "token";
     private static final String TAG_TYPE = "type";
@@ -66,7 +66,7 @@ public class lihatdata_activity extends Activity {
         HashMap<String, String> user = session.getUserDetails();
 
         final String did = in.getStringExtra(TAG_DID);// Get JSON values from previous intent
-        String uid = user.get(sessiomanager.TAG_UID);// get uid
+        String uid = user.get(sessiomanager.TAG_USERSID);// get uid
         String op = opl.toString();
 
         //execvute
@@ -86,7 +86,7 @@ public class lihatdata_activity extends Activity {
                 final String ket = ket_.getText().toString();
 
                 HashMap<String, String> user = session.getUserDetails();
-                String uid = user.get(sessiomanager.TAG_UID);// get uid
+                String uid = user.get(sessiomanager.TAG_USERSID);// get uid
 
                 if(tanggal.equals("")){
                     Toast.makeText(lihatdata_activity.this, "Isi tanggal terlebih dahulu", Toast.LENGTH_SHORT).show();
@@ -161,7 +161,7 @@ public class lihatdata_activity extends Activity {
             ArrayList<NameValuePair> post_parameter = new ArrayList<>();
 
             post_parameter.add(new BasicNameValuePair(opl, params[0]));
-            post_parameter.add(new BasicNameValuePair(TAG_UID, params[1]));
+            post_parameter.add(new BasicNameValuePair(TAG_USERSID, params[1]));
             post_parameter.add(new BasicNameValuePair(TAG_DID, params[2]));
            try{
                result = CustomHTTPClient.executeHttpPost(url, post_parameter);
@@ -183,7 +183,7 @@ public class lihatdata_activity extends Activity {
 
                 JSONObject object = data.getJSONObject(0);
                 String gdid = object.getString(TAG_DID);
-                String guid = object.getString(TAG_UID);
+                String guid = object.getString(TAG_USERSID);
                 String gdate = object.getString(TAG_DATE);
                 String gtoken = object.getString(TAG_TOKEN);
                 String gtype = object.getString(TAG_TYPE);

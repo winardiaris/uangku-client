@@ -39,13 +39,13 @@ public class sessiomanager  {
     public static final String mypref = "mypref" ;
     public static final String TAG_USERNAME = "username" ;
     public static final String TAG_PASSWORD = "password" ;
-    public static final String TAG_UID = "uid" ;
+    public static final String TAG_USERSID = "id" ;
+    public static final String TAG_TOKEN = "token" ;
     public static final String isloginkey = "islogin" ;
 
-    public static final String TAG_REALNAME = "realname";
-    public static final String TAG_LASTLOGIN = "lastlogin";
-    public static final String TAG_C_AT = "c_at";
-    public static final String TAG_U_AT = "u_at";
+    public static final String TAG_NAME = "name";
+    public static final String TAG_C_AT = "created_at";
+    public static final String TAG_U_AT = "updated_at";
     public static final String TAG_DATA = "data";
     public static final String TAG_GETDATA = "getdata";
 
@@ -54,45 +54,48 @@ public class sessiomanager  {
         pref = _context.getSharedPreferences(mypref, PRIVATE_MODE);
         editor = pref.edit();
     }
-    public void setsessionlogin(String username,String password,String uid) throws IOException {
+    public void setsessionlogin(String token) throws IOException {
 
             String result = null;
-            ArrayList<NameValuePair> post_parameter = new ArrayList<>();
-            post_parameter.add(new BasicNameValuePair("op", "viewuser"));
-            post_parameter.add(new BasicNameValuePair("username", username));
+//            ArrayList<NameValuePair> post_parameter = new ArrayList<>();
+//            post_parameter.add(new BasicNameValuePair("username", username));
+//            post_parameter.add(new BasicNameValuePair("password", password));
             try{
-                String jsonStr = CustomHTTPClient.executeHttpPost(url, post_parameter);
+//                String jsonStr = CustomHTTPClient.executeHttpPost(url+"/users/"+token, post_parameter);
+                ServiceHandler sh = new ServiceHandler();
+                String jsonStr = sh.makeServiceCall(url+"/users/"+token, ServiceHandler.GET);
+
                 if (jsonStr != null) {
                     try {
-//                        JSONArray jsonarray = new JSONArray(jsonStr);
+                        Log.d("setsessionlogin result json: ",jsonStr);
                         JSONObject obj = new JSONObject(jsonStr);
-                        JSONArray data = obj.getJSONArray(TAG_DATA);
 
-                        JSONObject jsonObj = data.getJSONObject(0);
 
-                        String realname = jsonObj.getString(TAG_REALNAME);
-                        String lastlogin = jsonObj.getString(TAG_LASTLOGIN);
-                        String cat = jsonObj.getString(TAG_C_AT);
-                        String uat = jsonObj.getString(TAG_U_AT);
+                        String username = obj.getString(TAG_USERNAME);
+//                        String password = obj.getString(TAG_NAME);
+                        String realname = obj.getString(TAG_NAME);
+                        String users_id = obj.getString(TAG_USERSID);
+//                        String token = obj.getString(TAG_TOKEN);
+                        String cat = obj.getString(TAG_C_AT);
+                        String uat = obj.getString(TAG_U_AT);
 
 //                      save session
                         editor.putString(TAG_USERNAME, username);
-                        editor.putString(TAG_PASSWORD, password);
-                        editor.putString(TAG_UID, uid);
+//                        editor.putString(TAG_PASSWORD, password);
+                        editor.putString(TAG_USERSID, users_id);
+                        editor.putString(TAG_TOKEN, token);
                         editor.putBoolean(isloginkey, true);
-                        editor.putString(TAG_REALNAME, realname);
-                        editor.putString(TAG_LASTLOGIN, lastlogin);
+                        editor.putString(TAG_NAME, realname);
                         editor.putString(TAG_C_AT, cat);
                         editor.putString(TAG_U_AT, uat);
                         editor.commit();
 
                         Log.d("setsessionlogin", "-------------------------------------");
                         Log.d("status:", "Succes");
-                        Log.d("UID:", uid);
+                        Log.d("users_id:", users_id);
                         Log.d("Username:", username);
                         Log.d("Realname:", realname);
-                        Log.d("Password:", password);
-                        Log.d("LastLogin:", lastlogin);
+//                        Log.d("Password:", password);
                         Log.d("C_at:", cat);
                         Log.d("U_at:", uat);
 
@@ -138,9 +141,9 @@ public class sessiomanager  {
 
         user.put(TAG_USERNAME, pref.getString(TAG_USERNAME, null));
         user.put(TAG_PASSWORD, pref.getString(TAG_PASSWORD, null));
-        user.put(TAG_UID, pref.getString(TAG_UID, null));
-        user.put(TAG_REALNAME,pref.getString(TAG_REALNAME,null));
-        user.put(TAG_LASTLOGIN,pref.getString(TAG_LASTLOGIN,null));
+        user.put(TAG_USERSID, pref.getString(TAG_USERSID, null));
+        user.put(TAG_NAME,pref.getString(TAG_NAME,null));
+        user.put(TAG_TOKEN,pref.getString(TAG_TOKEN,null));
         user.put(TAG_C_AT,pref.getString(TAG_C_AT,null));
         user.put(TAG_U_AT,pref.getString(TAG_U_AT,null));
 
@@ -172,12 +175,12 @@ public class sessiomanager  {
     }
 
 
-    public String getuid(String username) throws JSONException {
+    public String getusers_id(String token) throws JSONException {
         ServiceHandler sh = new ServiceHandler();
         // Making a request to url and getting response
-//        sh.makeServiceCall(url+"?op=get&from_data=username&value_data=" + username + "&select_field=uid&from_table=user", ServiceHandler.GET);
-        String jsonStr = sh.makeServiceCall(url+"?op=get&from_data=username&value_data="+username+"&select_field=uid&from_table=user", ServiceHandler.GET);
-        Log.d("getuid", "-----------------------------");
+//        sh.makeServiceCall(url+"?op=get&from_data=username&value_data=" + username + "&select_field=users_id&from_table=user", ServiceHandler.GET);
+        String jsonStr = sh.makeServiceCall(url+"/getusers_id/"+token, ServiceHandler.GET);
+        Log.d("getusers_id", "-----------------------------");
 
         Log.d("json :", jsonStr);
 
@@ -185,10 +188,10 @@ public class sessiomanager  {
         JSONArray data = obj.getJSONArray(TAG_DATA);
 
         JSONObject object = data.getJSONObject(0);
-       String uid_ = object.getString(TAG_GETDATA);
-        Log.d("uid dari get data",uid_);
+       String users_id_ = object.getString(TAG_GETDATA);
+        Log.d("users_id dari get data",users_id_);
 
-        return uid_;
+        return users_id_;
     }
 
 

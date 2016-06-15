@@ -55,7 +55,7 @@ public class data_activity extends ListActivity {
 
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
-        String uid = user.get(sessiomanager.TAG_UID);// get username
+        String uid = user.get(sessiomanager.TAG_USERSID);// get username
         url = AppSetting.SERVER+"?op=viewdata&uid="+uid;
 
         Button bcari = (Button)findViewById(R.id.bcari);
