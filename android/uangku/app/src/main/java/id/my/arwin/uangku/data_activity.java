@@ -35,18 +35,20 @@ public class data_activity extends ListActivity {
     private ProgressDialog pDialog;
     sessiomanager session;
 
+
     //node json
-    private static final String TAG_DID = "did";
-    private static final String TAG_UID = "uid";
+    private static final String TAG_ID = "id";
+    private static final String TAG_USERSID = "users_id";
     private static final String TAG_DATE = "date";
-    private static final String TAG_TOKEN = "token";
+    private static final String TAG_BILL = "bill";
     private static final String TAG_TYPE = "type";
     private static final String TAG_VALUE = "value";
     private static final String TAG_DESC = "desc";
     private static final String TAG_STATUS = "status";
-    private static final String TAG_C_AT= "c_at";
-    private static final String TAG_U_AT = "u_at";
+    private static final String TAG_C_AT= "created_at";
+    private static final String TAG_U_AT = "updated_at";
     private static final String TAG_DATA = "data";
+    private static final String TAG_TOKEN = "token";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,16 +57,17 @@ public class data_activity extends ListActivity {
 
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
-        String uid = user.get(sessiomanager.TAG_USERSID);// get username
-        url = AppSetting.SERVER+"?op=viewdata&uid="+uid;
+        String token = user.get(sessiomanager.TAG_TOKEN);// get username
+        url = AppSetting.SERVER+"data?token="+token;
+        Log.d("url", url);
 
         Button bcari = (Button)findViewById(R.id.bcari);
         bcari.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText tcari = (EditText) findViewById(R.id.tsearch);
-                String cari = tcari.toString();
-                url += "&search=" + cari;
+                String cari = tcari.getText().toString();
+                url += "&s=" + cari;
 
                 Log.d("url", url);
             }
@@ -79,7 +82,7 @@ public class data_activity extends ListActivity {
                 String did = ((TextView) view.findViewById(R.id.tdid)).getText().toString();
 
                 Intent in = new Intent(getApplicationContext(), lihatdata_activity.class);
-                in.putExtra(TAG_DID, did);
+                in.putExtra(TAG_ID, did);
 
                 startActivity(in);
             }
@@ -106,58 +109,9 @@ public class data_activity extends ListActivity {
             // Creating service handler class instance
             ServiceHandler sh = new ServiceHandler();
             // Making a request to url and getting response
-//            sh.makeServiceCall(url, ServiceHandler.GET);
             String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
-
+            dataList = ParseJSON(jsonStr);
             Log.d("Response: ", "> " + jsonStr);
-
-            if (jsonStr != null) {
-            try {
-
-                JSONObject jsonObj = new JSONObject(jsonStr);
-
-                // Getting JSON Array node
-                data = jsonObj.getJSONArray(TAG_DATA);
-                int banyak = data.length();
-
-                // looping through All Contacts
-                for (int i = 0; i < banyak; i++) {
-                    JSONObject c = data.getJSONObject(i);
-
-                    String did = c.getString(TAG_DID);
-                    String type = c.getString(TAG_TYPE);
-                    String date = c.getString(TAG_DATE);
-                    String value = c.getString(TAG_VALUE);
-                    String desc = c.getString(TAG_DESC);
-
-                    Log.d("date",date);
-
-
-                    // tmp hashmap for single data
-                    HashMap<String, String> data_ = new HashMap<String, String> ();
-
-                    // adding each child node to HashMap key => value
-                    data_.put(TAG_DID, did);
-                    data_.put(TAG_TYPE, type);
-                    data_.put(TAG_DATE, date);
-                    data_.put(TAG_VALUE, value);
-                    data_.put(TAG_DESC, desc);
-
-                    // adding data to data list
-                    dataList.add(data_);
-                }
-
-
-                if (pDialog.isShowing())
-                    pDialog.dismiss();
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-                Log.e("ServiceHandler", "Couldn't get any data from the url");
-            }
 
             return null;
         }
@@ -173,66 +127,69 @@ public class data_activity extends ListActivity {
              * */
             ListAdapter adapter = new SimpleAdapter(
                         data_activity.this, dataList,
-                        R.layout.list_item, new String[] { TAG_DID,TAG_TYPE, TAG_DATE,TAG_VALUE,TAG_DESC },
+                        R.layout.list_item, new String[] { TAG_ID,TAG_TYPE, TAG_DATE,TAG_VALUE,TAG_DESC },
                         new int[] {  R.id.tdid,R.id.ttype,R.id.tdate, R.id.tvalue, R.id.tdesc });
                 setListAdapter(adapter);
         }
 
     }
+    private ArrayList<HashMap<String,String>> ParseJSON(String jsonStr){
+        if (jsonStr != null) {
+            try {
 
-//    private void getData(String url){
-//        pDialog = new ProgressDialog(data_activity.this);
-//        pDialog.setMessage("Tolong Tunggu...");
-//        pDialog.setCancelable(false);
-//        pDialog.show();
-//
-//        // Creating service handler class instance
-//        ServiceHandler sh = new ServiceHandler();
-//        // Making a request to url and getting response
-//        String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
-//        Log.d("Response: ", "> " + jsonStr);
-//
-//        if (jsonStr != null) {
-//            try {
-//                JSONObject jsonObj = new JSONObject(jsonStr);
-//
-//                // Getting JSON Array node
-//                data = jsonObj.getJSONArray(TAG_DATA);
-//
-//                // looping through All Contacts
-//                for (int i = 0; i < data.length(); i++) {
-//                    JSONObject c = data.getJSONObject(i);
-//
-//                    // tmp hashmap for single data
-//                    HashMap<String, String> data_ = new HashMap<String, String> ();
-//
-//                    // adding each child node to HashMap key => value
-//                    data_.put(TAG_DID, c.getString(TAG_DID));
-//                    data_.put(TAG_TYPE, c.getString(TAG_TYPE));
-//                    data_.put(TAG_DATE, c.getString(TAG_DATE));
-//                    data_.put(TAG_VALUE, c.getString(TAG_VALUE));
-//                    data_.put(TAG_DESC, c.getString(TAG_DESC));
-//
-//
-//                    // adding data to data list
-//                    dataList.add(data_);
-//                }
-//
-//                ListAdapter adapter = new SimpleAdapter(
-//                        data_activity.this, dataList,
-//                        R.layout.list_item, new String[] { TAG_DID,TAG_TYPE, TAG_DATE,TAG_VALUE,TAG_DESC },
-//                        new int[] {  R.id.tdid,R.id.ttype,R.id.tdate, R.id.tvalue, R.id.tdesc });
-//                setListAdapter(adapter);
-//
-//                if (pDialog.isShowing())
-//                    pDialog.dismiss();
-//
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            Log.e("ServiceHandler", "Couldn't get any data from the url");
-//        }
-//    }
+                JSONArray jsonArr = new JSONArray(jsonStr);
+                // Getting JSON Array node
+                int banyak = jsonArr.length();
+                Log.d("banyak data",String.valueOf(banyak));
+
+
+                for (int i = 0; i < banyak; i++) {
+                    JSONObject c = jsonArr.getJSONObject(i);
+
+                    String id = c.getString(TAG_ID);
+                    String type = c.getString(TAG_TYPE);
+                    String date = c.getString(TAG_DATE);
+                    String value = c.getString(TAG_VALUE);
+                    String desc = c.getString(TAG_DESC);
+
+                    Log.d("id",id);
+                    Log.d("type",type);
+                    Log.d("date",date);
+                    Log.d("value",value);
+                    Log.d("desc",desc);
+                    Log.d("end","================================");
+
+
+
+                    // tmp hashmap for single data
+                    HashMap<String, String> data_ = new HashMap<String, String> ();
+
+                    // adding each child node to HashMap key => value
+                    data_.put(TAG_ID, id);
+                    data_.put(TAG_TYPE, type);
+                    data_.put(TAG_DATE, date);
+                    data_.put(TAG_VALUE, value);
+                    data_.put(TAG_DESC, desc);
+
+                    // adding data to data list
+                    dataList.add(data_);
+                }
+
+
+                if (pDialog.isShowing())
+                    pDialog.dismiss();
+
+                return dataList;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        else {
+            Log.e("ServiceHandler", "Couldn't get any data from the url");
+            return null;
+        }
+
+    }
+
 }

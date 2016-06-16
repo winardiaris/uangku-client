@@ -33,9 +33,8 @@ import id.my.arwin.uangku.Main.AppSetting;
  */
 public class tambahdata_activity extends FragmentActivity {
     String type = "in";
-    private static final String opl = "newdata";
     private static final String TAG_STATUS = "status";
-    private static final String TAG_DATA = "data";
+//    private static final String TAG_DATA = "data";
     private static final String url = AppSetting.SERVER;
     sessiomanager session;
 
@@ -79,7 +78,7 @@ public class tambahdata_activity extends FragmentActivity {
         bsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String op = opl.toString();
+
                 String jenis = type;
                 final String tanggal = tanggal_.getText().toString();
                 final String jumlah = jumlah_.getText().toString();
@@ -87,7 +86,8 @@ public class tambahdata_activity extends FragmentActivity {
                 final String ket = ket_.getText().toString();
 
                 HashMap<String, String> user = session.getUserDetails();
-                String uid = user.get(sessiomanager.TAG_USERSID);// get uid
+//                String users_id = user.get(sessiomanager.TAG_USERSID);// get users_id
+                String token = user.get(sessiomanager.TAG_TOKEN);
 
                 if(tanggal.equals("")){
                     Toast.makeText(tambahdata_activity.this, "Isi tanggal terlebih dahulu", Toast.LENGTH_SHORT).show();
@@ -112,8 +112,9 @@ public class tambahdata_activity extends FragmentActivity {
                     Log.d("jumlah", jumlah);
                     Log.d("bukti", bukti);
                     Log.d("ket", ket);
+                    Log.d("token", token);
 
-                    new simpandata(tambahdata_activity.this).execute(op,uid,tanggal,bukti,jenis,jumlah,ket);
+                    new simpandata(tambahdata_activity.this).execute(tanggal,bukti,jenis,jumlah,ket,token);
 
                 }
             }
@@ -156,23 +157,22 @@ public class tambahdata_activity extends FragmentActivity {
         protected String doInBackground(String... params) {
             String result = null;
             ArrayList<NameValuePair> post_parameter = new ArrayList<>();
-            post_parameter.add(new BasicNameValuePair("op", params[0]));
-            post_parameter.add(new BasicNameValuePair("uid", params[1]));
-            post_parameter.add(new BasicNameValuePair("date", params[2]));
-            post_parameter.add(new BasicNameValuePair("token", params[3]));
-            post_parameter.add(new BasicNameValuePair("type", params[4]));
-            post_parameter.add(new BasicNameValuePair("value", params[5]));
-            post_parameter.add(new BasicNameValuePair("desc", params[6]));
+            post_parameter.add(new BasicNameValuePair("date", params[0]));
+            post_parameter.add(new BasicNameValuePair("bill", params[1]));
+            post_parameter.add(new BasicNameValuePair("type", params[2]));
+            post_parameter.add(new BasicNameValuePair("value", params[3]));
+            post_parameter.add(new BasicNameValuePair("desc", params[4]));
+            post_parameter.add(new BasicNameValuePair("token", params[5]));
             try{
-                String jsonStr = CustomHTTPClient.executeHttpPost(url, post_parameter);
+                String jsonStr = CustomHTTPClient.executeHttpPost(url+"data", post_parameter);
                 if (jsonStr != null) {
                     try {
-
+                        Log.d("url",url+"data");
                         Log.d("data json",jsonStr);
                         JSONObject obj = new JSONObject(jsonStr);
-                        JSONObject data = obj.getJSONObject(TAG_DATA);
+//                        JSONObject data = obj.getJSONObject(TAG_DATA);
 
-                        String status = data.getString(TAG_STATUS);
+                        String status = obj.getString(TAG_STATUS);
                         Log.d("status",status);
                         result = status;
 

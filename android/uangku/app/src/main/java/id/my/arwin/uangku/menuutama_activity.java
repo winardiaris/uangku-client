@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -24,6 +25,7 @@ public class menuutama_activity extends Activity {
 
         //logout
         Button blogout = (Button) findViewById(R.id.blogout);
+        Log.d("menuutamaactivity","button keluar di klik =====================");
         blogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +48,7 @@ public class menuutama_activity extends Activity {
         bnewdata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("menuutamaactivity","button baru di klik =====================");
                 Intent i = new Intent(menuutama_activity.this,tambahdata_activity.class);
                 startActivity(i);
             }
@@ -55,6 +58,7 @@ public class menuutama_activity extends Activity {
         blistdata.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                Log.d("menuutamaactivity","button data di klik =====================");
                 Intent i = new Intent(menuutama_activity.this,data_activity.class);
                 startActivity(i);
             }
@@ -64,6 +68,7 @@ public class menuutama_activity extends Activity {
         bsetting.setOnClickListener(new View.OnClickListener(){
             @Override
             public void  onClick(View v){
+                Log.d("menuutamaactivity","button setting di klik =====================");
                 Intent i = new Intent(menuutama_activity.this,pengaturan_activity.class);
                 startActivity(i);
             }

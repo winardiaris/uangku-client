@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:text="@string/find"
             android:id="@+id/bcari"
-            android:layout_gravity="right" />
+            android:layout_gravity="right"
+            android:width="100px"/>
 
     </LinearLayout>
 
