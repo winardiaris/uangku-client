@@ -86,7 +86,6 @@ public class tambahdata_activity extends FragmentActivity {
                 final String ket = ket_.getText().toString();
 
                 HashMap<String, String> user = session.getUserDetails();
-//                String users_id = user.get(sessiomanager.TAG_USERSID);// get users_id
                 String token = user.get(sessiomanager.TAG_TOKEN);
 
                 if(tanggal.equals("")){

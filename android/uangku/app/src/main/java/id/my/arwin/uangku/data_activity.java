@@ -88,7 +88,7 @@ public class data_activity extends ListActivity {
             }
         });
 
-
+        //TODO masih ga bisa nampil data
         new getData().execute();
 
     }

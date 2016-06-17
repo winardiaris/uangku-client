@@ -36,7 +36,7 @@ public class sessiomanager  {
 
 
     //session
-    public static final String mypref = "mypref" ;
+    public static final String mypref = "uangku" ;
     public static final String TAG_USERNAME = "username" ;
     public static final String TAG_PASSWORD = "password" ;
     public static final String TAG_USERSID = "id" ;
@@ -44,6 +44,7 @@ public class sessiomanager  {
     public static final String isloginkey = "islogin" ;
 
     public static final String TAG_NAME = "name";
+    public static final String TAG_EMAIL = "email";
     public static final String TAG_C_AT = "created_at";
     public static final String TAG_U_AT = "updated_at";
     public static final String TAG_DATA = "data";
@@ -72,20 +73,19 @@ public class sessiomanager  {
 
 
                         String username = obj.getString(TAG_USERNAME);
-//                        String password = obj.getString(TAG_NAME);
                         String realname = obj.getString(TAG_NAME);
                         String users_id = obj.getString(TAG_USERSID);
-//                        String token = obj.getString(TAG_TOKEN);
+                        String email = obj.getString(TAG_EMAIL);
                         String cat = obj.getString(TAG_C_AT);
                         String uat = obj.getString(TAG_U_AT);
 
 //                      save session
                         editor.putString(TAG_USERNAME, username);
-//                        editor.putString(TAG_PASSWORD, password);
                         editor.putString(TAG_USERSID, users_id);
                         editor.putString(TAG_TOKEN, token);
                         editor.putBoolean(isloginkey, true);
                         editor.putString(TAG_NAME, realname);
+                        editor.putString(TAG_EMAIL, email);
                         editor.putString(TAG_C_AT, cat);
                         editor.putString(TAG_U_AT, uat);
                         editor.commit();
@@ -95,7 +95,7 @@ public class sessiomanager  {
                         Log.d("users_id:", users_id);
                         Log.d("Username:", username);
                         Log.d("Realname:", realname);
-//                        Log.d("Password:", password);
+                        Log.d("email:", email);
                         Log.d("C_at:", cat);
                         Log.d("U_at:", uat);
 
@@ -113,26 +113,26 @@ public class sessiomanager  {
 
 
     }
-    public boolean checklogin(){
-        // Check login status
-        if(!this.isUserLoggedIn()){
-
-            // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, sessiomanager.class);
-
-            // Closing all the Activities from stack
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            // Staring Login Activity
-            _context.startActivity(i);
-
-            return true;
-        }
-        return false;
-    }
+//    public boolean checklogin(){
+//        // Check login status
+//        if(!this.isUserLoggedIn()){
+//
+//            // user is not logged in redirect him to Login Activity
+//            Intent i = new Intent(_context, sessiomanager.class);
+//
+//            // Closing all the Activities from stack
+//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//            // Add new Flag to start new Activity
+//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//            // Staring Login Activity
+//            _context.startActivity(i);
+//
+//            return true;
+//        }
+//        return false;
+//    }
 
     public HashMap<String, String> getUserDetails(){
 
@@ -144,6 +144,7 @@ public class sessiomanager  {
         user.put(TAG_USERSID, pref.getString(TAG_USERSID, null));
         user.put(TAG_NAME,pref.getString(TAG_NAME,null));
         user.put(TAG_TOKEN,pref.getString(TAG_TOKEN,null));
+        user.put(TAG_EMAIL,pref.getString(TAG_EMAIL,null));
         user.put(TAG_C_AT,pref.getString(TAG_C_AT,null));
         user.put(TAG_U_AT,pref.getString(TAG_U_AT,null));
 
@@ -175,24 +176,24 @@ public class sessiomanager  {
     }
 
 
-    public String getusers_id(String token) throws JSONException {
-        ServiceHandler sh = new ServiceHandler();
-        // Making a request to url and getting response
-//        sh.makeServiceCall(url+"?op=get&from_data=username&value_data=" + username + "&select_field=users_id&from_table=user", ServiceHandler.GET);
-        String jsonStr = sh.makeServiceCall(url+"/getusers_id/"+token, ServiceHandler.GET);
-        Log.d("getusers_id", "-----------------------------");
-
-        Log.d("json :", jsonStr);
-
-        JSONObject obj = new JSONObject(jsonStr);
-        JSONArray data = obj.getJSONArray(TAG_DATA);
-
-        JSONObject object = data.getJSONObject(0);
-       String users_id_ = object.getString(TAG_GETDATA);
-        Log.d("users_id dari get data",users_id_);
-
-        return users_id_;
-    }
+//    public String getusers_id(String token) throws JSONException {
+//        ServiceHandler sh = new ServiceHandler();
+//        // Making a request to url and getting response
+////        sh.makeServiceCall(url+"?op=get&from_data=username&value_data=" + username + "&select_field=users_id&from_table=user", ServiceHandler.GET);
+//        String jsonStr = sh.makeServiceCall(url+"/getusers_id/"+token, ServiceHandler.GET);
+//        Log.d("getusers_id", "-----------------------------");
+//
+//        Log.d("json :", jsonStr);
+//
+//        JSONObject obj = new JSONObject(jsonStr);
+//        JSONArray data = obj.getJSONArray(TAG_DATA);
+//
+//        JSONObject object = data.getJSONObject(0);
+//       String users_id_ = object.getString(TAG_GETDATA);
+//        Log.d("users_id dari get data",users_id_);
+//
+//        return users_id_;
+//    }
 
 
 

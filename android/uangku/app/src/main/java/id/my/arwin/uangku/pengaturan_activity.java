@@ -28,36 +28,39 @@ import id.my.arwin.uangku.Main.AppSetting;
  */
 public class pengaturan_activity extends Activity {
     sessiomanager session;
-    private static final String opl = "updateuser";
     private static final String TAG_STATUS = "status";
-    private static final String TAG_DATA = "data";
     private static final String url = AppSetting.SERVER;
 
     public void onCreate(Bundle savedInstanceState) {
+        this.set();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pengaturan_activity);
         //session
         session = new sessiomanager(getApplicationContext());
          final EditText tusename = (EditText) findViewById(R.id.tusername);
          final EditText trealname = (EditText) findViewById(R.id.trealname);
+         final EditText temail = (EditText) findViewById(R.id.temail);
          final EditText tpassword = (EditText) findViewById(R.id.tpassword);
-         TextView llastlogin = (TextView) findViewById(R.id.llastlogin);
          TextView llastupdat = (TextView) findViewById(R.id.llastupdate);
 
 
-        this.set();
+
         final Button bupdate = (Button)findViewById(R.id.bupdate);
         bupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String op = opl.toString();
                 final String username = tusename.getText().toString();
                 final String realname = trealname.getText().toString();
+                final String email = temail.getText().toString();
                 final String password_ = tpassword.getText().toString();
                 String password = new md5sum().md5(password_);
 
+
+
                 HashMap<String, String> user = session.getUserDetails();
-                String uid = user.get(sessiomanager.TAG_USERSID);// get uid
+                String token = user.get(sessiomanager.TAG_TOKEN);
+                String id = user.get(sessiomanager.TAG_USERSID);
+
 
                 if (username.equals("")) {
                     Toast.makeText(pengaturan_activity.this, "Isi Nama pengguna terlebih dahulu", Toast.LENGTH_SHORT).show();
@@ -72,12 +75,13 @@ public class pengaturan_activity extends Activity {
                     //lanjut simpan
 
                     Log.d("Button simpan pengaturan diklik", "------------------------------");
-                    Log.d("uid", uid);
+                    Log.d("token", token);
                     Log.d("username", username);
                     Log.d("realname", realname);
                     Log.d("passwowrd", password);
+                    Log.d("email", email);
 
-                    new ubahdata(pengaturan_activity.this).execute(op, uid, username, realname, password);
+                    new ubahdata(pengaturan_activity.this).execute(username, realname,email, password,token,id);
 
                 }
             }
@@ -89,17 +93,23 @@ public class pengaturan_activity extends Activity {
         HashMap<String, String> user = session.getUserDetails();
         String username = user.get(sessiomanager.TAG_USERNAME);// get username
         String realname = user.get(sessiomanager.TAG_NAME);// get realname
+        String email = user.get(sessiomanager.TAG_EMAIL);// get email
         String lastupdate = user.get(sessiomanager.TAG_U_AT);
 
         EditText tusename = (EditText) findViewById(R.id.tusername);
         EditText trealname = (EditText) findViewById(R.id.trealname);
-        TextView llastlogin = (TextView) findViewById(R.id.llastlogin);
+        EditText temail = (EditText) findViewById(R.id.temail);
         TextView llastupdat = (TextView) findViewById(R.id.llastupdate);
-        
+
         tusename.setText(username);
         trealname.setText(realname);
-//        llastlogin.setText("Terakhir masuk: "+lastlogin);
+        temail.setText(email);
         llastupdat.setText("Terakhir diubah: "+lastupdate);
+
+        Log.d("view pengaturan", "------------------------------");
+        Log.d("username", username);
+        Log.d("realname", realname);
+        Log.d("email", email);
 
     }
     private class ubahdata extends AsyncTask<String, Void, String> {
@@ -120,21 +130,25 @@ public class pengaturan_activity extends Activity {
         protected String doInBackground(String... params) {
             String result = null;
             ArrayList<NameValuePair> post_parameter = new ArrayList<>();
-            post_parameter.add(new BasicNameValuePair("op", params[0]));
-            post_parameter.add(new BasicNameValuePair("uid", params[1]));
-            post_parameter.add(new BasicNameValuePair("username", params[2]));
-            post_parameter.add(new BasicNameValuePair("realname", params[3]));
-            post_parameter.add(new BasicNameValuePair("password", params[4]));
-            
+            post_parameter.add(new BasicNameValuePair("username", params[0]));
+            post_parameter.add(new BasicNameValuePair("name", params[1]));
+            post_parameter.add(new BasicNameValuePair("email", params[2]));
+            post_parameter.add(new BasicNameValuePair("password", params[3]));
+            post_parameter.add(new BasicNameValuePair("token", params[4]));
+            post_parameter.add(new BasicNameValuePair("_method", "put"));
+
+            String id=params[5];
+
             try{
-                String jsonStr = CustomHTTPClient.executeHttpPost(url, post_parameter);
+                String jsonStr = CustomHTTPClient.executeHttpPost(url+"users/"+id, post_parameter);
                 if (jsonStr != null) {
                     try {
+
                         Log.d("data json",jsonStr);
                         JSONObject obj = new JSONObject(jsonStr);
-                        JSONObject data = obj.getJSONObject(TAG_DATA);
+//                        JSONObject data = obj.getJSONObject(TAG_DATA);
 
-                        String status = data.getString(TAG_STATUS);
+                        String status = obj.getString(TAG_STATUS);
                         Log.d("status",status);
                         result = status;
                     }catch (JSONException e) {

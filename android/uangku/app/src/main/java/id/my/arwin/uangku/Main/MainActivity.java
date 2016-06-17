@@ -24,7 +24,6 @@ public class MainActivity extends Activity {
     private static String url_test = url+"check";
     private static final String TAG_DATA = "data";
     private static final String TAG_STATUS = "status";
-//    ArrayList<HashMap<String, String>> status_;
     private String status_;
     sessiomanager session;
     @Override
@@ -94,7 +93,6 @@ public class MainActivity extends Activity {
                 pDialog.dismiss();
 
             Toast.makeText(MainActivity.this,status_,Toast.LENGTH_SHORT).show();
-//            setContentView(R.layout.signup_activity);
 
         }
     }
